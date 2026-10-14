@@ -101,9 +101,9 @@ Every visible text element on `index.html` that differs between languages carrie
 11. **FAB** — floating call button, mobile only
 
 ## Placeholder content still to replace
-- Phone: `+49 123 45678` (placeholder — appears in header, hero, contact section, FAB; search for it)
 - About-me photo: `about__photo-placeholder`-style treatment no longer applies here — the About section is now text-only; if a photo is wanted, add it as a proper `<img>` similar to the hero pattern
-- Address (Anichstraße 34, 6020 Innsbruck), email (`hallo@physioantonia.at`), and the Google Maps embed are already real
+- Address (Anichstraße 34, 6020 Innsbruck), phone (`0664 75081432`, linked as `tel:+4366475081432`), email (`antonia@tzaphysio.at`), and the Google Maps embed are already real
+- Website links: the homepage contact section links to the TZA practice site (`tzaphysio.at`); the Impressum and everything else use `physioantonia.at`
 - `impressum.html` has bracketed placeholders (register number, Aufsichtsbehörde, VAT status) that need real values before the legal pages go live for real
 
 ## GitHub & Hosting

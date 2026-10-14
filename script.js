@@ -209,6 +209,16 @@
     });
   }
 
+  // ===== FAB: only show once the hero call buttons have scrolled away =====
+  const fab = document.querySelector('.fab');
+  const heroCtas = document.querySelector('.hero__ctas');
+  if (fab && heroCtas && 'IntersectionObserver' in window) {
+    fab.classList.add('is-hidden');
+    new IntersectionObserver(([entry]) => {
+      fab.classList.toggle('is-hidden', entry.isIntersecting || entry.boundingClientRect.top > 0);
+    }).observe(heroCtas);
+  }
+
   // ===== HEADER SCROLL SHADOW =====
   const header = document.querySelector('.header');
   window.addEventListener('scroll', () => {

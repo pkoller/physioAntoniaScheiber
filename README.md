@@ -43,6 +43,4 @@ GitHub Pages deployt automatisch bei jedem Merge in `master`. Der Branch ist ges
 
 Vor dem echten Livegang ergänzen:
 
-- Telefonnummer (aktuell `+49 123 45678`)
-- Impressum: Nachname, Gesundheitsberuferegister-Nummer, Aufsichtsbehörde, USt-Status
 - Foto für den Bereich „Über mich" (Platzhalter-Kachel)

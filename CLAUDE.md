@@ -12,13 +12,15 @@ script.js       — language toggle, mobile nav drawer, scroll reveals,
 impressum.html  — legal notice (§ 5 ECG), German only
 datenschutz.html — privacy policy (DSGVO), German only
 img/            — optimized site images (hero photo etc.)
+fonts/          — self-hosted Lora + Raleway woff2 files
 README.md       — repo overview for humans
 .claude/skills/ — reference-only design skills (see "Design skills" below)
 ```
 
 ## Tech constraints
 - **No npm, no bundler, no framework.** Keep it plain HTML/CSS/JS.
-- Google Fonts loaded via a single `<link>` in `<head>` (Lora + Raleway).
+- Fonts (Lora + Raleway, variable woff2, latin + latin-ext) are **self-hosted** in `fonts/` via `@font-face` at the top of `style.css`. Don't reintroduce the Google Fonts `<link>` — it sends visitors' IPs to Google without consent (cf. the 2022 Google-Fonts warning-letter wave in AT/DE).
+- **Consent / cookie banner** (`#consentBanner`, logic in `script.js`): the site sets no cookies itself; the banner only gates the Google Maps iframe, which carries `data-src` and gets its `src` only after consent (banner "Akzeptieren" or the "Karte laden" button in the map placeholder). Choice is stored in `localStorage` key `physioantonia-consent-maps` (`granted`/`denied`); "Cookie-Einstellungen" in the footer reopens the banner, and `datenschutz.html` has a revoke button. Accept and decline must stay equally prominent. Any new third-party embed must go behind the same consent.
 - No emoji anywhere — use inline SVG icons (Lucide style: `stroke="currentColor"`, `fill="none"`, `stroke-width="1.8"–"2.5"`).
 
 ## Design system
@@ -94,8 +96,9 @@ Every visible text element on `index.html` that differs between languages carrie
 6. **Über mich** (`#ueber-uns`) — heading + career list + Weiterbildungen list, full width (no eyebrow, no 2-col photo — photo is now the divider panel from Hausbesuche's boundary above)
 7. **Kostenübernahme** (`#kosten`) — heading + paragraphs on prescription requirement and Wahltherapeutin cost reimbursement
 8. **Kontakt** (`#kontakt`, white background) — heading + contact info (address/phone/email/website) in the left column, contact form top-aligned with it in the right column, Google Maps embed full-width below
-9. **Footer** — copyright + Impressum/Datenschutz links
-10. **FAB** — floating call button, mobile only
+9. **Footer** — copyright + Impressum/Datenschutz links + "Cookie-Einstellungen" button
+10. **Consent banner** — fixed bottom-left (next to the sidebar; full-width on mobile), shown until the visitor chooses
+11. **FAB** — floating call button, mobile only
 
 ## Placeholder content still to replace
 - Phone: `+49 123 45678` (placeholder — appears in header, hero, contact section, FAB; search for it)

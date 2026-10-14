@@ -1,3 +1,38 @@
+/* ===== FONTS (self-hosted — no requests to Google, see Datenschutz) ===== */
+/* Variable fonts: one file per subset covers every weight */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/lora-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/lora-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('fonts/raleway-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('fonts/raleway-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ===== DESIGN SYSTEM — Medical Clinic / Wellness Calm ===== */
 /* Generated with UI UX Pro Max: Accessible & Ethical + Minimalism */
 :root {
@@ -544,8 +579,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 0.88rem;
   font-weight: 500;
 }
-.map-placeholder span { font-size: 2rem; }
-.map[src]:not([src=""]) ~ .map-placeholder { display: none; }
+.map-placeholder { padding: 1.5rem; text-align: center; }
+.map-placeholder__text { max-width: 36ch; font-size: 0.82rem; font-weight: 500; text-wrap: pretty; }
+.map-placeholder[hidden] { display: none; }
 
 /* ===== FOOTER ===== */
 .footer {
@@ -572,6 +608,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color var(--transition);
 }
 .footer__nav a:hover { color: var(--clr-primary-light); }
+.footer__link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.footer__link-btn:hover { color: var(--clr-primary-light); }
 
 /* ===== HEADER PHONE / EMAIL ===== */
 .header__phone,
@@ -596,6 +644,70 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .header__phone svg,
 .header__email svg { flex-shrink: 0; }
+
+/* ===== SMALL / OUTLINE BUTTONS ===== */
+.btn--sm { padding: 0.6rem 1.25rem; font-size: 0.82rem; }
+.btn--outline {
+  background: var(--clr-white);
+  color: var(--clr-primary-dark);
+  border: 1.5px solid var(--clr-border-mid);
+}
+.btn--outline:hover {
+  border-color: var(--clr-primary);
+  background: var(--clr-bg-alt);
+}
+
+/* ===== CONSENT BANNER ===== */
+/* Reject and accept are styled identically on purpose: Austrian DSB / EDPB
+   guidance requires declining to be as easy and prominent as accepting */
+.consent {
+  position: fixed;
+  left: calc(var(--sidebar-w) + 1.5rem);
+  bottom: 1.5rem;
+  z-index: 250;
+  max-width: 420px;
+  background: var(--clr-white);
+  border: 1.5px solid var(--clr-border-mid);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.25rem 1.35rem;
+}
+.consent[hidden] { display: none; }
+.consent__title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--clr-dark);
+  margin-bottom: 0.4rem;
+  text-wrap: balance;
+}
+.consent__text {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--clr-text);
+  text-wrap: pretty;
+}
+.consent__link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--clr-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.consent__link:hover { color: var(--clr-primary-dark); }
+.consent__actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+.consent__actions .btn { flex: 1; justify-content: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .consent {
+    transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+    @starting-style {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+}
 
 /* ===== HERO CTAS ===== */
 .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -776,6 +888,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero__ctas { flex-direction: column; }
   .hero__ctas .btn { width: 100%; justify-content: center; }
 
+  .consent { left: 1rem; right: 1rem; bottom: 1rem; max-width: none; }
+
   .testimonials-grid { grid-template-columns: 1fr; gap: 1rem; }
 
 
@@ -844,6 +958,18 @@ body.legal-page { margin-left: 0; }
 .legal ul li { margin-bottom: 0.35rem; }
 .legal a { color: var(--clr-primary); font-weight: 600; }
 .legal a:hover { color: var(--clr-primary-dark); }
+.legal-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--clr-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.legal-link-btn:hover { color: var(--clr-primary-dark); }
 .legal .btn { margin-top: 2.5rem; }
 .legal-note {
   background: var(--clr-bg-alt);

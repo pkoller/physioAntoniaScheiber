@@ -12,14 +12,25 @@ Statische Website ohne Framework, Build-Tools oder Dependencies — öffnet dire
 |-------|--------|
 | `index.html` | Gesamte Seitenstruktur und Inhalte |
 | `style.css` | Alle Styles (Design-Tokens als CSS-Variablen in `:root`) |
-| `script.js` | Sprachumschaltung, mobiles Menü, Formular-Handler |
-| `impressum.html` | Impressum (§ 5 ECG / § 25 MedienG) |
-| `datenschutz.html` | Datenschutzerklärung (DSGVO) |
-| `img/` | Optimierte Bilder für die Website |
+| `script.js` | Sprachumschaltung, mobiles Menü, Scroll-Animationen, aktive Navigation, Formular-Handler, Google Maps per Klick |
+| `impressum.html` | Impressum (§ 5 ECG / § 25 MedienG), nur Deutsch |
+| `datenschutz.html` | Datenschutzerklärung (DSGVO), nur Deutsch |
+| `img/` | Optimierte Bilder (Hero, Hausbesuche, Porträt, TZA-Logo) |
+| `fonts/` | Selbst gehostete Schriften Lora + Raleway (variable woff2, latin + latin-ext) |
+| `.github/workflows/` | Deployment auf GitHub Pages + PR-Vorschauen |
+| `.claude/skills/` | Design-Referenzen für Claude Code (nur Doku, nicht Teil der Website) |
+
+## Schriften
+
+Lora (Überschriften) und Raleway (Fließtext) liegen als woff2-Dateien in `fonts/` und werden per `@font-face` am Anfang von `style.css` eingebunden. Bewusst **kein** Google-Fonts-`<link>`: das würde die IP-Adressen der Besucher ohne Einwilligung an Google übertragen (vgl. die Google-Fonts-Abmahnwelle 2022 in AT/DE).
+
+## Cookies & Google Maps
+
+Die Website setzt keine Cookies und speichert nichts im Browser — daher gibt es keinen Cookie-Banner. Einziger Drittinhalt ist die Google-Maps-Karte im Kontaktbereich, eingebunden als Zwei-Klick-Lösung: Das `<iframe>` trägt `data-src` und erhält sein `src` erst, wenn der Besucher auf „Karte laden" klickt. Der Platzhaltertext informiert über die Datenübertragung an Google (inkl. USA) und verlinkt die Datenschutzerklärung. Die Wahl wird nicht gespeichert; bei jedem Seitenaufruf ist die Karte wieder gesperrt. Neue externe Einbettungen müssen ebenfalls erst per Klick laden.
 
 ## Zweisprachigkeit (DE/EN)
 
-Jeder sichtbare Text trägt beide Sprachen als Attribute:
+Jeder sichtbare Text auf `index.html` trägt beide Sprachen als Attribute:
 
 ```html
 <h2 data-de="Über mich" data-en="About me">Über mich</h2>
@@ -37,10 +48,6 @@ py -m http.server 8123
 
 ## Deployment
 
-GitHub Pages deployt automatisch bei jedem Merge in `master`. Der Branch ist geschützt — Änderungen laufen über Pull Requests.
+GitHub Pages deployt automatisch bei jedem Merge in `master` (Workflow `pages-deploy.yml`, veröffentlicht in den Branch `gh-pages`). Der Branch `master` ist geschützt — Änderungen laufen über Pull Requests.
 
-## Offene Platzhalter
-
-Vor dem echten Livegang ergänzen:
-
-- Foto für den Bereich „Über mich" (Platzhalter-Kachel)
+Jeder Pull Request bekommt eine Live-Vorschau unter `https://pkoller.github.io/physiotoni/pr-preview/pr-<Nummer>/` (Workflow `pr-preview.yml`), die beim Schließen des PRs wieder entfernt wird.

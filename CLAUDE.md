@@ -98,10 +98,10 @@ Every visible text element on `index.html` that differs between languages carrie
 10. **FAB** — floating call button, mobile only
 
 ## Placeholder content still to replace
-- Phone: `+49 123 45678` (placeholder — appears in header, hero, contact section, FAB; search for it)
+- Phone (`0664 75081432`, `tel:+4366475081432`) is real — appears in header, hero, contact section, FAB, Impressum, Datenschutz
 - About-me photo: `about__photo-placeholder`-style treatment no longer applies here — the About section is now text-only; if a photo is wanted, add it as a proper `<img>` similar to the hero pattern
 - Address (Anichstraße 34, 6020 Innsbruck), email (`antonia@tzaphysio.at`), and the Google Maps embed are already real
-- `impressum.html` has bracketed placeholders (`[Nachname]`, register number, Aufsichtsbehörde, VAT status) that need real values before the legal pages go live for real
+- `impressum.html` and `datenschutz.html` carry the final legal text — no placeholders left
 
 ## GitHub & Hosting
 Public repo: `https://github.com/pkoller/physiotoni`. **`master` is protected — no direct pushes.** Always work on a branch and open a PR:

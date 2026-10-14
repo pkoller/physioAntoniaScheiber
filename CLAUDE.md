@@ -104,7 +104,7 @@ Every visible text element on `index.html` that differs between languages carrie
 - Phone: `+49 123 45678` (placeholder — appears in header, hero, contact section, FAB; search for it)
 - About-me photo: `about__photo-placeholder`-style treatment no longer applies here — the About section is now text-only; if a photo is wanted, add it as a proper `<img>` similar to the hero pattern
 - Address (Anichstraße 34, 6020 Innsbruck), email (`hallo@physioantonia.at`), and the Google Maps embed are already real
-- `impressum.html` has bracketed placeholders (`[Nachname]`, register number, Aufsichtsbehörde, VAT status) that need real values before the legal pages go live for real
+- `impressum.html` has bracketed placeholders (register number, Aufsichtsbehörde, VAT status) that need real values before the legal pages go live for real
 
 ## GitHub & Hosting
 Public repo: `https://github.com/pkoller/physiotoni`. **`master` is protected — no direct pushes.** Always work on a branch and open a PR:

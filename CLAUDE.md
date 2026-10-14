@@ -20,7 +20,7 @@ README.md       — repo overview for humans
 ## Tech constraints
 - **No npm, no bundler, no framework.** Keep it plain HTML/CSS/JS.
 - Fonts (Lora + Raleway, variable woff2, latin + latin-ext) are **self-hosted** in `fonts/` via `@font-face` at the top of `style.css`. Don't reintroduce the Google Fonts `<link>` — it sends visitors' IPs to Google without consent (cf. the 2022 Google-Fonts warning-letter wave in AT/DE).
-- **Consent / cookie banner** (`#consentBanner`, logic in `script.js`): the site sets no cookies itself; the banner only gates the Google Maps iframe, which carries `data-src` and gets its `src` only after consent (banner "Akzeptieren" or the "Karte laden" button in the map placeholder). Choice is stored in `localStorage` key `physioantonia-consent-maps` (`granted`/`denied`); "Cookie-Einstellungen" in the footer reopens the banner, and `datenschutz.html` has a revoke button. Accept and decline must stay equally prominent. Any new third-party embed must go behind the same consent.
+- **No cookie banner — two-click Google Maps** (logic in `script.js`): the site sets no cookies and stores nothing in the browser, so no banner is needed. The only third-party content, the Google Maps iframe, carries `data-src` and gets its `src` only when the visitor clicks "Karte laden" in the map placeholder; the placeholder text says what gets sent to Google (IP, cookies, USA) and links to `datenschutz.html` — that informed click is the consent. Nothing is remembered; the map is gated again on every page view. Any new third-party embed must use the same click-to-load pattern (or bring back a real consent banner) — never load it on page view.
 - No emoji anywhere — use inline SVG icons (Lucide style: `stroke="currentColor"`, `fill="none"`, `stroke-width="1.8"–"2.5"`).
 
 ## Design system
@@ -86,7 +86,7 @@ Every visible text element on `index.html` that differs between languages carrie
 
 **Rules:**
 - Always add both `data-de` and `data-en` to any new text element on `index.html`.
-- Use `innerHTML` swap (already handled in `script.js`) only for strings that contain `<br>`.
+- `script.js` swaps via `innerHTML` for strings that contain markup (`<br>`, `<a>`), `textContent` otherwise. Inside `data-de`/`data-en`, write attribute quotes as `&quot;`.
 - The language toggle button in the header (`#langToggle`) is wired up in `script.js` — no changes needed there.
 - `impressum.html` and `datenschutz.html` are **German-only by design** — legal text isn't bilingual, don't add `data-de`/`data-en` there.
 
@@ -99,9 +99,8 @@ Every visible text element on `index.html` that differs between languages carrie
 6. **Über mich** (`#ueber-uns`) — heading + career list + Weiterbildungen list, full width (no eyebrow, no 2-col photo — photo is now the divider panel from Hausbesuche's boundary above)
 7. **Kostenübernahme** (`#kosten`) — heading + paragraphs on prescription requirement and Wahltherapeutin cost reimbursement
 8. **Kontakt** (`#kontakt`, white background) — heading + contact info (address/phone/email/website) in the left column, contact form top-aligned with it in the right column, Google Maps embed full-width below
-9. **Footer** — copyright + Impressum/Datenschutz links + "Cookie-Einstellungen" button
-10. **Consent banner** — fixed bottom-left (next to the sidebar; full-width on mobile), shown until the visitor chooses
-11. **FAB** — floating call button, mobile only
+9. **Footer** — copyright + Impressum/Datenschutz links
+10. **FAB** — floating call button, mobile only
 
 ## Placeholder content still to replace
 - Phone (`0664 75081432`, `tel:+4366475081432`) is real — appears in header, hero, contact section, FAB, Impressum, Datenschutz

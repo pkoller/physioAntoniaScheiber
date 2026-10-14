@@ -43,5 +43,4 @@ GitHub Pages deployt automatisch bei jedem Merge in `master`. Der Branch ist ges
 
 Vor dem echten Livegang ergänzen:
 
-- Impressum: Gesundheitsberuferegister-Nummer, Aufsichtsbehörde, USt-Status
 - Foto für den Bereich „Über mich" (Platzhalter-Kachel)

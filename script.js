@@ -122,20 +122,94 @@
     document.getElementById('mapLoad').addEventListener('click', () => setConsent(true));
   }
 
-  // ===== CONTACT FORM (demo handler) =====
+  // ===== CONTACT FORM (Web3Forms) =====
   const contactForm = document.getElementById('contactFormEl');
   if (contactForm) {
-    contactForm.addEventListener('submit', e => {
-      e.preventDefault();
+    const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+    // Practical check: local@domain.tld, no spaces, TLD at least 2 chars
+    const EMAIL_RE = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[^\s@.]{2,}$/;
+
+    const fields = [
+      { input: document.getElementById('name'),    error: document.getElementById('nameError'),    isValid: el => el.value.trim() !== '' },
+      { input: document.getElementById('email'),   error: document.getElementById('emailError'),   isValid: el => EMAIL_RE.test(el.value.trim()) },
+      { input: document.getElementById('message'), error: document.getElementById('messageError'), isValid: el => el.value.trim() !== '' },
+      { input: document.getElementById('consent'), error: document.getElementById('consentError'), isValid: el => el.checked },
+    ];
+    const btn = contactForm.querySelector('[type="submit"]');
+    const status = document.getElementById('formStatus');
+
+    function validateField(field) {
+      const valid = field.isValid(field.input);
+      field.input.setAttribute('aria-invalid', String(!valid));
+      field.error.hidden = valid;
+      return valid;
+    }
+
+    fields.forEach(field => {
+      // Check when leaving a filled field; once flagged, re-check live
+      field.input.addEventListener('blur', () => {
+        if (field.input.type !== 'checkbox' && field.input.value.trim()) validateField(field);
+      });
+      field.input.addEventListener(field.input.type === 'checkbox' ? 'change' : 'input', () => {
+        if (field.input.getAttribute('aria-invalid') === 'true') validateField(field);
+      });
+    });
+
+    // Message carries both languages so the language toggle keeps working
+    function showStatus(type, de, en) {
+      status.dataset.de = de;
+      status.dataset.en = en;
+      status.textContent = html.lang === 'de' ? de : en;
+      status.className = 'form-status form-status--' + type;
+      status.hidden = false;
+    }
+
+    function setSending(sending) {
+      btn.disabled = sending;
       const isDE = html.lang === 'de';
-      const btn = contactForm.querySelector('[type="submit"]');
-      btn.textContent = isDE ? 'Gesendet ✓' : 'Sent ✓';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = isDE ? 'Senden' : 'Send';
-        btn.disabled = false;
+      btn.textContent = sending ? (isDE ? 'Wird gesendet …' : 'Sending …') : (isDE ? 'Senden' : 'Send');
+    }
+
+    contactForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      status.hidden = true;
+
+      const invalid = fields.filter(field => !validateField(field));
+      if (invalid.length) {
+        invalid[0].input.focus();
+        return;
+      }
+
+      // Honeypot ticked: pretend success, send nothing
+      if (contactForm.elements.botcheck.checked) {
         contactForm.reset();
-      }, 3000);
+        return;
+      }
+
+      setSending(true);
+      try {
+        const data = Object.fromEntries(new FormData(contactForm));
+        data.replyto = data.email.trim();
+        const res = await fetch(WEB3FORMS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message);
+
+        contactForm.reset();
+        fields.forEach(field => field.input.removeAttribute('aria-invalid'));
+        showStatus('success',
+          'Vielen Dank! Ihre Nachricht wurde gesendet. Ich melde mich so bald wie möglich.',
+          'Thank you! Your message has been sent. I will get back to you as soon as possible.');
+      } catch (err) {
+        showStatus('error',
+          'Die Nachricht konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut oder rufen Sie mich an: 0664 75081432',
+          'Sorry, your message could not be sent. Please try again or call me: +43 664 75081432');
+      } finally {
+        setSending(false);
+      }
     });
   }
 

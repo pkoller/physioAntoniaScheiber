@@ -870,7 +870,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 0.75rem 1.25rem;
   border-radius: 50px;
   box-shadow: 0 6px 24px rgba(37,99,235,0.40);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition), visibility var(--transition);
+}
+/* hidden while the hero's own call buttons are on screen (toggled in script.js) */
+.fab.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  pointer-events: none;
 }
 .fab:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(37,99,235,0.45); }
 .fab:active { transform: scale(0.97); }
@@ -905,9 +912,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .nav__link { padding: 0.85rem 0.85rem; }
   .hamburger { display: flex; }
 
-  .hero { min-height: 78vh; }
-  .hero__inner { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.25rem 4rem; }
-  .hero__image { max-width: 220px; width: 100%; margin: 0 auto; }
+  /* compact hero so photo, headline, text and both CTAs fit on one phone screen */
+  .hero { min-height: 0; }
+  .hero__inner { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.5rem 1.25rem 2.5rem; }
+  .hero__image { max-width: 170px; width: 100%; margin: 0 auto; }
+  .hero__title { margin-bottom: 0.9rem; }
+  .hero__sub { font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .hero__ctas { gap: 0.75rem; }
   .hero__image img { aspect-ratio: 1/1; }
   .hero__ctas { flex-direction: column; }
   .hero__ctas .btn { width: 100%; justify-content: center; }

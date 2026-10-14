@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p _pr-preview-src
           cp index.html style.css script.js impressum.html datenschutz.html _pr-preview-src/
-          cp -r img _pr-preview-src/
+          cp -r img fonts _pr-preview-src/
 
       - uses: rossjrw/pr-preview-action@v1
         with:

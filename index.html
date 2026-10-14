@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PhysioAntonia – Physiotherapie, Rehabilitation und Hausbesuche in Innsbruck" />
   <title>PhysioAntonia</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -224,9 +221,10 @@
         </div>
 
         <div class="map-wrap">
+          <!-- Google Maps only loads after consent (see cookie banner in script.js) -->
           <iframe
             class="map"
-            src="https://www.google.com/maps?q=Anichstra%C3%9Fe%2034%2C%206020%20Innsbruck&output=embed"
+            data-src="https://www.google.com/maps?q=Anichstra%C3%9Fe%2034%2C%206020%20Innsbruck&output=embed"
             width="100%"
             height="100%"
             style="border:0;"
@@ -234,10 +232,12 @@
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             title="Standort PhysioAntonia"
+            hidden
           ></iframe>
-          <div class="map-placeholder" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <p data-de="Karte folgt" data-en="Map coming soon">Karte folgt</p>
+          <div class="map-placeholder" id="mapPlaceholder">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p class="map-placeholder__text" data-de="Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt und Cookies gesetzt." data-en="Loading the map sends data (including your IP address) to Google and sets cookies.">Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt und Cookies gesetzt.</p>
+            <button type="button" class="btn btn--primary btn--sm" id="mapLoad" data-de="Karte laden" data-en="Load map">Karte laden</button>
           </div>
         </div>
 
@@ -254,6 +254,7 @@
       <nav class="footer__nav">
         <a href="impressum.html" data-de="Impressum" data-en="Legal notice">Impressum</a>
         <a href="datenschutz.html" data-de="Datenschutz" data-en="Privacy policy">Datenschutz</a>
+        <button type="button" class="footer__link-btn" id="consentOpen" data-de="Cookie-Einstellungen" data-en="Cookie settings">Cookie-Einstellungen</button>
       </nav>
     </div>
   </footer>
@@ -263,6 +264,17 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
     <span data-de="Anrufen" data-en="Call">Anrufen</span>
   </a>
+
+  <!-- Cookie / consent banner — only governs the Google Maps embed -->
+  <div class="consent" id="consentBanner" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+    <p class="consent__title" id="consentTitle" data-de="Cookies &amp; externe Inhalte" data-en="Cookies &amp; external content">Cookies &amp; externe Inhalte</p>
+    <p class="consent__text" id="consentText" data-de="Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern." data-en="This website sets no cookies of its own. The map in the contact section is provided by Google Maps – it only loads once you agree, at which point Google sets cookies and data (including your IP address) may be transferred to the USA. You can change your choice at any time via “Cookie settings” in the footer.">Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern.</p>
+    <a class="consent__link" href="datenschutz.html" data-de="Mehr in der Datenschutzerklärung" data-en="More in the privacy policy">Mehr in der Datenschutzerklärung</a>
+    <div class="consent__actions">
+      <button type="button" class="btn btn--outline btn--sm" id="consentDeny" data-de="Ablehnen" data-en="Decline">Ablehnen</button>
+      <button type="button" class="btn btn--outline btn--sm" id="consentAccept" data-de="Akzeptieren" data-en="Accept">Akzeptieren</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

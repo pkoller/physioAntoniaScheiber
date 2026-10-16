@@ -88,20 +88,46 @@
     });
   }
 
-  // ===== CONTACT FORM (demo handler) =====
+  // ===== CONTACT FORM (Web3Forms) =====
+  // Posts to api.web3forms.com via fetch; Web3Forms emails the message on.
+  // Without JS the form's action/method still submit it the classic way.
   const contactForm = document.getElementById('contactFormEl');
+  const formStatus = document.getElementById('formStatus');
   if (contactForm) {
-    contactForm.addEventListener('submit', e => {
+    contactForm.addEventListener('submit', async e => {
       e.preventDefault();
+      if (!contactForm.reportValidity()) return;
       const isDE = html.lang === 'de';
       const btn = contactForm.querySelector('[type="submit"]');
-      btn.textContent = isDE ? 'Gesendet ✓' : 'Sent ✓';
+      const setStatus = (de, en, isError) => {
+        formStatus.textContent = isDE ? de : en;
+        formStatus.classList.toggle('form-status--error', isError);
+      };
       btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = isDE ? 'Senden' : 'Send';
-        btn.disabled = false;
+      setStatus('Wird gesendet …', 'Sending …', false);
+      try {
+        const res = await fetch(contactForm.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(contactForm)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message || res.status);
         contactForm.reset();
-      }, 3000);
+        setStatus(
+          'Danke! Ihre Nachricht wurde gesendet. Ich melde mich so bald wie möglich.',
+          'Thank you! Your message has been sent. I will get back to you as soon as possible.',
+          false
+        );
+      } catch (err) {
+        setStatus(
+          'Die Nachricht konnte leider nicht gesendet werden. Bitte rufen Sie mich an oder schreiben Sie direkt an antonia@tzaphysio.at.',
+          'Sorry, the message could not be sent. Please call me or email antonia@tzaphysio.at directly.',
+          true
+        );
+      } finally {
+        btn.disabled = false;
+      }
     });
   }
 

@@ -91,20 +91,33 @@
   // ===== CONTACT FORM (Web3Forms) =====
   // Posts to api.web3forms.com via fetch; Web3Forms emails the message on.
   // Without JS the form's action/method still submit it the classic way.
+  // On success the form is swapped for a confirmation panel; the panel and
+  // the error box are static markup, so the language toggle covers them.
   const contactForm = document.getElementById('contactFormEl');
-  const formStatus = document.getElementById('formStatus');
   if (contactForm) {
+    const formTitle = document.getElementById('formTitle');
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
+    const formReset = document.getElementById('formReset');
+    const submitBtn = contactForm.querySelector('[type="submit"]');
+
+    const setSending = sending => {
+      submitBtn.disabled = sending;
+      submitBtn.classList.toggle('is-sending', sending);
+      const label = html.lang === 'de' ? submitBtn.dataset.de : submitBtn.dataset.en;
+      submitBtn.textContent = sending ? (html.lang === 'de' ? 'Wird gesendet …' : 'Sending …') : label;
+    };
+    const showForm = show => {
+      contactForm.hidden = !show;
+      formTitle.hidden = !show;
+      formSuccess.hidden = show;
+    };
+
     contactForm.addEventListener('submit', async e => {
       e.preventDefault();
       if (!contactForm.reportValidity()) return;
-      const isDE = html.lang === 'de';
-      const btn = contactForm.querySelector('[type="submit"]');
-      const setStatus = (de, en, isError) => {
-        formStatus.textContent = isDE ? de : en;
-        formStatus.classList.toggle('form-status--error', isError);
-      };
-      btn.disabled = true;
-      setStatus('Wird gesendet …', 'Sending …', false);
+      formError.hidden = true;
+      setSending(true);
       try {
         const res = await fetch(contactForm.action, {
           method: 'POST',
@@ -114,20 +127,18 @@
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.success) throw new Error(data.message || res.status);
         contactForm.reset();
-        setStatus(
-          'Danke! Ihre Nachricht wurde gesendet. Ich melde mich so bald wie möglich.',
-          'Thank you! Your message has been sent. I will get back to you as soon as possible.',
-          false
-        );
+        showForm(false);
+        formSuccess.focus();
       } catch (err) {
-        setStatus(
-          'Die Nachricht konnte leider nicht gesendet werden. Bitte rufen Sie mich an oder schreiben Sie direkt an antonia@tzaphysio.at.',
-          'Sorry, the message could not be sent. Please call me or email antonia@tzaphysio.at directly.',
-          true
-        );
+        formError.hidden = false;
       } finally {
-        btn.disabled = false;
+        setSending(false);
       }
+    });
+
+    formReset.addEventListener('click', () => {
+      showForm(true);
+      contactForm.querySelector('input:not([type="hidden"]):not(.form-honeypot)').focus();
     });
   }
 

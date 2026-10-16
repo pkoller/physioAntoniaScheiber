@@ -583,10 +583,82 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .form-input--textarea { resize: vertical; min-height: 110px; }
 .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
-.form-honeypot { display: none; }
-.form-status { margin: 0; font-size: 0.95rem; color: var(--clr-text); text-wrap: pretty; }
-.form-status:empty { display: none; }
-.form-status--error { color: var(--clr-dark); font-weight: 600; }
+.form-honeypot, .contact-form[hidden] { display: none; }
+.contact-form .btn.is-sending,
+.contact-form .btn.is-sending:hover {
+  background: var(--clr-cta-dark);
+  transform: none;
+  cursor: progress;
+}
+.form-error {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  background: var(--clr-bg-alt);
+  border: 1.5px solid var(--clr-border-mid);
+  border-left: 4px solid var(--clr-dark);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--clr-dark);
+  text-wrap: pretty;
+}
+.form-error[hidden] { display: none; }
+.form-error__icon { flex-shrink: 0; margin-top: 0.1rem; }
+.form-error a { color: var(--clr-primary-text); text-decoration: underline; }
+
+/* Confirmation panel that replaces the form after a successful send */
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0 0;
+}
+.form-success[hidden] { display: none; }
+.form-success:focus { outline: none; }
+.form-success__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--clr-primary-dark);
+  color: var(--clr-white);
+  box-shadow: 0 0 0 8px var(--clr-bg-alt);
+  margin-bottom: 0.5rem;
+}
+.form-success__title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--clr-dark);
+  text-wrap: balance;
+}
+.form-success__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--clr-text);
+  text-wrap: pretty;
+}
+.form-success .btn { margin-top: 0.5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .form-success:not([hidden]) { animation: form-success-in 420ms var(--ease-out) both; }
+  .form-success:not([hidden]) .form-success__icon { animation: form-success-pop 480ms var(--ease-out) 80ms both; }
+}
+@keyframes form-success-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes form-success-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
 .contact-form-wrap__note {
   margin-top: 1.5rem;
   font-size: 0.82rem;

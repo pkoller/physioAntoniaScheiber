@@ -209,7 +209,7 @@
         </div>
 
         <div class="contact-form-wrap" id="contactForm">
-          <h3 class="contact-form-wrap__title" data-de="Oder schreiben Sie mir" data-en="Or send me a message">Oder schreiben Sie mir</h3>
+          <h3 class="contact-form-wrap__title" id="formTitle" data-de="Oder schreiben Sie mir" data-en="Or send me a message">Oder schreiben Sie mir</h3>
           <form class="contact-form" id="contactFormEl" action="https://api.web3forms.com/submit" method="POST" novalidate>
             <input type="hidden" name="access_key" value="f2870a2e-d5be-4acb-b53c-9977caa075f0" />
             <input type="hidden" name="subject" value="Neue Anfrage über physioantonia.at" />
@@ -225,8 +225,21 @@
             <textarea class="form-input form-input--textarea" id="message" name="message" rows="4" required></textarea>
 
             <button type="submit" class="btn btn--primary" data-de="Senden" data-en="Send">Senden</button>
-            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+
+            <p class="form-error" id="formError" role="alert" hidden>
+              <svg class="form-error__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span data-de="Die Nachricht konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut, rufen Sie mich an (<a href=&quot;tel:+4366475081432&quot;>0664 75081432</a>) oder schreiben Sie an <a href=&quot;mailto:antonia@tzaphysio.at&quot;>antonia@tzaphysio.at</a>." data-en="Sorry, your message could not be sent. Please try again, call me (<a href=&quot;tel:+4366475081432&quot;>0664 75081432</a>) or email <a href=&quot;mailto:antonia@tzaphysio.at&quot;>antonia@tzaphysio.at</a>.">Die Nachricht konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut, rufen Sie mich an (<a href="tel:+4366475081432">0664 75081432</a>) oder schreiben Sie an <a href="mailto:antonia@tzaphysio.at">antonia@tzaphysio.at</a>.</span>
+            </p>
           </form>
+
+          <div class="form-success" id="formSuccess" tabindex="-1" hidden>
+            <span class="form-success__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <h3 class="form-success__title" data-de="Vielen Dank, Ihre Nachricht wurde gesendet!" data-en="Thank you, your message has been sent!">Vielen Dank, Ihre Nachricht wurde gesendet!</h3>
+            <p class="form-success__text" data-de="Ich habe Ihre Anfrage erhalten und melde mich so bald wie möglich per E-Mail bei Ihnen." data-en="I have received your request and will get back to you by email as soon as possible.">Ich habe Ihre Anfrage erhalten und melde mich so bald wie möglich per E-Mail bei Ihnen.</p>
+            <button type="button" class="btn btn--outline btn--sm" id="formReset" data-de="Weitere Nachricht schreiben" data-en="Write another message">Weitere Nachricht schreiben</button>
+          </div>
           <p class="contact-form-wrap__note" data-de="Bitte übermitteln Sie über dieses Formular keine sensiblen Gesundheitsdaten oder medizinischen Befunde. Für die erste Kontaktaufnahme reichen Name, E-Mail-Adresse und eine kurze Nachricht." data-en="Please do not send sensitive health data or medical reports via this form. For a first contact, your name, email address and a short message are enough.">Bitte übermitteln Sie über dieses Formular keine sensiblen Gesundheitsdaten oder medizinischen Befunde. Für die erste Kontaktaufnahme reichen Name, E-Mail-Adresse und eine kurze Nachricht.</p>
         </div>
 

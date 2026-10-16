@@ -88,20 +88,57 @@
     });
   }
 
-  // ===== CONTACT FORM (demo handler) =====
+  // ===== CONTACT FORM (Web3Forms) =====
+  // Posts to api.web3forms.com via fetch; Web3Forms emails the message on.
+  // Without JS the form's action/method still submit it the classic way.
+  // On success the form is swapped for a confirmation panel; the panel and
+  // the error box are static markup, so the language toggle covers them.
   const contactForm = document.getElementById('contactFormEl');
   if (contactForm) {
-    contactForm.addEventListener('submit', e => {
+    const formTitle = document.getElementById('formTitle');
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
+    const formReset = document.getElementById('formReset');
+    const submitBtn = contactForm.querySelector('[type="submit"]');
+
+    const setSending = sending => {
+      submitBtn.disabled = sending;
+      submitBtn.classList.toggle('is-sending', sending);
+      const label = html.lang === 'de' ? submitBtn.dataset.de : submitBtn.dataset.en;
+      submitBtn.textContent = sending ? (html.lang === 'de' ? 'Wird gesendet …' : 'Sending …') : label;
+    };
+    const showForm = show => {
+      contactForm.hidden = !show;
+      formTitle.hidden = !show;
+      formSuccess.hidden = show;
+    };
+
+    contactForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const isDE = html.lang === 'de';
-      const btn = contactForm.querySelector('[type="submit"]');
-      btn.textContent = isDE ? 'Gesendet ✓' : 'Sent ✓';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = isDE ? 'Senden' : 'Send';
-        btn.disabled = false;
+      if (!contactForm.reportValidity()) return;
+      formError.hidden = true;
+      setSending(true);
+      try {
+        const res = await fetch(contactForm.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(contactForm)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message || res.status);
         contactForm.reset();
-      }, 3000);
+        showForm(false);
+        formSuccess.focus();
+      } catch (err) {
+        formError.hidden = false;
+      } finally {
+        setSending(false);
+      }
+    });
+
+    formReset.addEventListener('click', () => {
+      showForm(true);
+      contactForm.querySelector('input:not([type="hidden"]):not(.form-honeypot)').focus();
     });
   }
 

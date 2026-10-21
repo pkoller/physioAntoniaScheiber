@@ -1,8 +1,8 @@
-# PhysioAntonia
+# PhysioAntoniaScheiber.at
 
-Website für die Physiotherapie-Praxis **PhysioAntonia** in Innsbruck.
+Website für die Physiotherapie-Praxis **PhysioAntoniaScheiber.at** in Innsbruck.
 
-**Live:** https://pkoller.github.io/physiotoni/ (künftig: physioantonia.at)
+**Live:** https://pkoller.github.io/physiotoni/ (künftig: physioantoniascheiber.at)
 
 ## Tech
 

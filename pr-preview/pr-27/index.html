@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PhysioAntonia – Physiotherapie, Rehabilitation und Hausbesuche in Innsbruck" />
-  <title>PhysioAntonia</title>
+  <meta name="description" content="PhysioAntoniaScheiber.at – Physiotherapie, Rehabilitation und Hausbesuche in Innsbruck" />
+  <title>PhysioAntoniaScheiber.at</title>
   <link rel="icon" href="img/favicon/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
 
@@ -17,7 +17,7 @@
 
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar" id="nav">
-    <a href="#top" class="logo">PhysioAntonia</a>
+    <a href="#top" class="logo">Physio Antonia&nbsp;Scheiber</a>
     <nav class="sidebar__nav" aria-label="Hauptnavigation">
       <a href="#leistungen-eyebrow" class="nav__link" data-de="Physiotherapie" data-en="Physiotherapy">Physiotherapie</a>
       <a href="#hausbesuche-eyebrow" class="nav__link" data-de="Hausbesuche" data-en="Home visits">Hausbesuche</a>
@@ -33,7 +33,7 @@
       <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-      <a href="#top" class="logo logo--mobile">PhysioAntonia</a>
+      <a href="#top" class="logo logo--mobile">Physio Antonia&nbsp;Scheiber</a>
 
       <div class="header__actions">
         <a href="tel:+4366475081432" class="header__phone">
@@ -211,8 +211,8 @@
           <h3 class="contact-form-wrap__title" id="formTitle" data-de="Oder schreiben Sie mir" data-en="Or send me a message">Oder schreiben Sie mir</h3>
           <form class="contact-form" id="contactFormEl" action="https://api.web3forms.com/submit" method="POST" novalidate>
             <input type="hidden" name="access_key" value="f2870a2e-d5be-4acb-b53c-9977caa075f0" />
-            <input type="hidden" name="subject" value="Neue Anfrage über physioantonia.at" />
-            <input type="hidden" name="from_name" value="Website PhysioAntonia" />
+            <input type="hidden" name="subject" value="Neue Anfrage über physioantoniascheiber.at" />
+            <input type="hidden" name="from_name" value="Website PhysioAntoniaScheiber.at" />
             <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <label class="form-label" for="name" data-de="Name" data-en="Name">Name</label>
             <input class="form-input" type="text" id="name" name="name" autocomplete="name" required aria-describedby="nameError" />
@@ -246,7 +246,7 @@
         </div>
 
         <div class="map-wrap">
-          <!-- Google Maps only loads after the visitor clicks "Karte laden" (two-click solution, see script.js) -->
+          <!-- Google Maps only loads after consent (see cookie banner in script.js) -->
           <iframe
             class="map"
             data-src="https://www.google.com/maps?q=Anichstra%C3%9Fe%2034%2C%206020%20Innsbruck&output=embed"
@@ -256,13 +256,12 @@
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            title="Standort PhysioAntonia"
+            title="Standort PhysioAntoniaScheiber.at"
             hidden
           ></iframe>
           <div class="map-placeholder" id="mapPlaceholder">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <p class="map-placeholder__text" data-de="Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt, ggf. auch in die USA, und Google setzt Cookies. Mehr in der <a href=&quot;datenschutz.html&quot;>Datenschutzerklärung</a>." data-en="Loading the map sends data (including your IP address) to Google, possibly to the USA, and Google sets cookies. More in the <a href=&quot;datenschutz.html&quot;>privacy policy</a>.">Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt, ggf. auch in die USA, und Google setzt Cookies. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
-            <button type="button" class="btn btn--primary btn--sm" id="mapLoad" data-de="Karte laden" data-en="Load map">Karte laden</button>
+            <p class="map-placeholder__text" data-de="Die Karte von Google Maps wird erst angezeigt, wenn Sie externen Inhalten zustimmen – über „Cookie-Einstellungen“ im Fußbereich. Mehr in der <a href=&quot;datenschutz.html&quot;>Datenschutzerklärung</a>." data-en="The Google Maps map is only shown once you allow external content – via “Cookie settings” in the footer. More in the <a href=&quot;datenschutz.html&quot;>privacy policy</a>.">Die Karte von Google Maps wird erst angezeigt, wenn Sie externen Inhalten zustimmen – über „Cookie-Einstellungen“ im Fußbereich. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
           </div>
         </div>
 
@@ -275,10 +274,11 @@
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container footer__inner">
-      <p class="footer__copy">&copy; <span id="year"></span> PhysioAntonia</p>
+      <p class="footer__copy">&copy; <span id="year"></span> PhysioAntoniaScheiber.at</p>
       <nav class="footer__nav">
         <a href="impressum.html" data-de="Impressum" data-en="Legal notice">Impressum</a>
         <a href="datenschutz.html" data-de="Datenschutz" data-en="Privacy policy">Datenschutz</a>
+        <button type="button" class="footer__link-btn" id="consentOpen" data-de="Cookie-Einstellungen" data-en="Cookie settings">Cookie-Einstellungen</button>
       </nav>
     </div>
   </footer>
@@ -289,6 +289,17 @@
     <span data-de="Anrufen" data-en="Call">Anrufen</span>
   </a>
 
-  <script src="script.js?v=3"></script>
+  <!-- Cookie / consent banner — only governs the Google Maps embed -->
+  <div class="consent" id="consentBanner" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+    <p class="consent__title" id="consentTitle" data-de="Cookies &amp; externe Inhalte" data-en="Cookies &amp; external content">Cookies &amp; externe Inhalte</p>
+    <p class="consent__text" id="consentText" data-de="Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern." data-en="This website sets no cookies of its own. The map in the contact section is provided by Google Maps – it only loads once you agree, at which point Google sets cookies and data (including your IP address) may be transferred to the USA. You can change your choice at any time via “Cookie settings” in the footer.">Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern.</p>
+    <a class="consent__link" href="datenschutz.html" data-de="Mehr in der Datenschutzerklärung" data-en="More in the privacy policy">Mehr in der Datenschutzerklärung</a>
+    <div class="consent__actions">
+      <button type="button" class="btn btn--outline btn--sm" id="consentDeny" data-de="Ablehnen" data-en="Decline">Ablehnen</button>
+      <button type="button" class="btn btn--outline btn--sm" id="consentAccept" data-de="Akzeptieren" data-en="Accept">Akzeptieren</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=4"></script>
 </body>
 </html>

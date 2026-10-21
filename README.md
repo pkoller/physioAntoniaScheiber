@@ -2,7 +2,7 @@
 
 Website für die Physiotherapie-Praxis **PhysioAntoniaScheiber.at** in Innsbruck.
 
-**Live:** https://pkoller.github.io/physiotoni/ (künftig: physioantoniascheiber.at)
+**Live:** https://pkoller.github.io/physioAntoniaScheiber/ (künftig: physioantoniascheiber.at)
 
 ## Tech
 
@@ -50,4 +50,4 @@ py -m http.server 8123
 
 GitHub Pages deployt automatisch bei jedem Merge in `master` (Workflow `pages-deploy.yml`, veröffentlicht in den Branch `gh-pages`). Der Branch `master` ist geschützt — Änderungen laufen über Pull Requests.
 
-Jeder Pull Request bekommt eine Live-Vorschau unter `https://pkoller.github.io/physiotoni/pr-preview/pr-<Nummer>/` (Workflow `pr-preview.yml`), die beim Schließen des PRs wieder entfernt wird.
+Jeder Pull Request bekommt eine Live-Vorschau unter `https://pkoller.github.io/physioAntoniaScheiber/pr-preview/pr-<Nummer>/` (Workflow `pr-preview.yml`), die beim Schließen des PRs wieder entfernt wird.

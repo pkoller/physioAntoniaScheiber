@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PhysioAntoniaScheiber.at – Physiotherapie, Rehabilitation und Hausbesuche in Innsbruck" />
   <title>PhysioAntoniaScheiber.at</title>
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
 
@@ -242,7 +242,7 @@
         </div>
 
         <div class="map-wrap">
-          <!-- Google Maps only loads after the visitor clicks "Karte laden" (two-click solution, see script.js) -->
+          <!-- Google Maps only loads after consent (see cookie banner in script.js) -->
           <iframe
             class="map"
             data-src="https://www.google.com/maps?q=Anichstra%C3%9Fe%2034%2C%206020%20Innsbruck&output=embed"
@@ -257,8 +257,7 @@
           ></iframe>
           <div class="map-placeholder" id="mapPlaceholder">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <p class="map-placeholder__text" data-de="Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt, ggf. auch in die USA, und Google setzt Cookies. Mehr in der <a href=&quot;datenschutz.html&quot;>Datenschutzerklärung</a>." data-en="Loading the map sends data (including your IP address) to Google, possibly to the USA, and Google sets cookies. More in the <a href=&quot;datenschutz.html&quot;>privacy policy</a>.">Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übermittelt, ggf. auch in die USA, und Google setzt Cookies. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
-            <button type="button" class="btn btn--primary btn--sm" id="mapLoad" data-de="Karte laden" data-en="Load map">Karte laden</button>
+            <p class="map-placeholder__text" data-de="Die Karte von Google Maps wird erst angezeigt, wenn Sie externen Inhalten zustimmen – über „Cookie-Einstellungen“ im Fußbereich. Mehr in der <a href=&quot;datenschutz.html&quot;>Datenschutzerklärung</a>." data-en="The Google Maps map is only shown once you allow external content – via “Cookie settings” in the footer. More in the <a href=&quot;datenschutz.html&quot;>privacy policy</a>.">Die Karte von Google Maps wird erst angezeigt, wenn Sie externen Inhalten zustimmen – über „Cookie-Einstellungen“ im Fußbereich. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
           </div>
         </div>
 
@@ -275,6 +274,7 @@
       <nav class="footer__nav">
         <a href="impressum.html" data-de="Impressum" data-en="Legal notice">Impressum</a>
         <a href="datenschutz.html" data-de="Datenschutz" data-en="Privacy policy">Datenschutz</a>
+        <button type="button" class="footer__link-btn" id="consentOpen" data-de="Cookie-Einstellungen" data-en="Cookie settings">Cookie-Einstellungen</button>
       </nav>
     </div>
   </footer>
@@ -285,6 +285,17 @@
     <span data-de="Anrufen" data-en="Call">Anrufen</span>
   </a>
 
-  <script src="script.js?v=3"></script>
+  <!-- Cookie / consent banner — only governs the Google Maps embed -->
+  <div class="consent" id="consentBanner" role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+    <p class="consent__title" id="consentTitle" data-de="Cookies &amp; externe Inhalte" data-en="Cookies &amp; external content">Cookies &amp; externe Inhalte</p>
+    <p class="consent__text" id="consentText" data-de="Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern." data-en="This website sets no cookies of its own. The map in the contact section is provided by Google Maps – it only loads once you agree, at which point Google sets cookies and data (including your IP address) may be transferred to the USA. You can change your choice at any time via “Cookie settings” in the footer.">Diese Website setzt selbst keine Cookies. Die Karte im Kontaktbereich stammt von Google Maps – erst wenn Sie zustimmen, wird sie geladen, wobei Google Cookies setzt und Daten (u. a. Ihre IP-Adresse) ggf. in die USA übermittelt werden. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen“ im Fußbereich ändern.</p>
+    <a class="consent__link" href="datenschutz.html" data-de="Mehr in der Datenschutzerklärung" data-en="More in the privacy policy">Mehr in der Datenschutzerklärung</a>
+    <div class="consent__actions">
+      <button type="button" class="btn btn--outline btn--sm" id="consentDeny" data-de="Ablehnen" data-en="Decline">Ablehnen</button>
+      <button type="button" class="btn btn--outline btn--sm" id="consentAccept" data-de="Akzeptieren" data-en="Accept">Akzeptieren</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=4"></script>
 </body>
 </html>

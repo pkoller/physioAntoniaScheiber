@@ -446,20 +446,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* these paragraphs are the section's actual content, not a subtitle: body text color */
 #kosten .section__sub { max-width: 720px; margin-bottom: 1rem; color: var(--clr-text); }
 #kosten .section__sub:last-child { margin-bottom: 0; }
-#kosten .section__sub + .section__subhead { margin-top: 2.25rem; }
-.insurer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.insurer-links a {
-  color: var(--clr-primary-text);
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 160ms var(--ease-out);
-}
-.insurer-links a:hover { color: var(--clr-dark); }
 
 /* ===== CONTACT ===== */
 .contact-grid {

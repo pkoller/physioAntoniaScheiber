@@ -71,20 +71,54 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ===== GOOGLE MAPS (click to load) =====
+  // ===== CONSENT (Google Maps) =====
   // The site itself sets no cookies; the only third-party content is the
-  // Google Maps embed. Its iframe carries data-src and only gets a src when
-  // the visitor clicks "Karte laden" — that click is the consent. Nothing is
-  // stored, so the map is gated again on every page view.
+  // Google Maps embed, which loads only after the visitor agrees in the
+  // banner. The choice is kept in localStorage (strictly necessary to
+  // remember it — no consent needed for that) and can be changed via
+  // "Cookie-Einstellungen" in the footer.
+  const CONSENT_KEY = 'physioantonia-consent-maps';
+  const consentBanner = document.getElementById('consentBanner');
   const mapFrame = document.querySelector('.map[data-src]');
   const mapPlaceholder = document.getElementById('mapPlaceholder');
-  const mapLoad = document.getElementById('mapLoad');
 
-  if (mapFrame && mapLoad) {
-    mapLoad.addEventListener('click', () => {
-      mapFrame.src = mapFrame.dataset.src;
+  function readConsent() {
+    try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+  }
+
+  function saveConsent(value) {
+    try { localStorage.setItem(CONSENT_KEY, value); } catch (e) { /* private mode — choice lasts this page view */ }
+  }
+
+  function applyConsent(granted) {
+    if (!mapFrame) return;
+    if (granted) {
+      if (!mapFrame.src) mapFrame.src = mapFrame.dataset.src;
       mapFrame.hidden = false;
       mapPlaceholder.hidden = true;
+    } else {
+      mapFrame.removeAttribute('src');
+      mapFrame.hidden = true;
+      mapPlaceholder.hidden = false;
+    }
+  }
+
+  function setConsent(granted) {
+    saveConsent(granted ? 'granted' : 'denied');
+    applyConsent(granted);
+    consentBanner.hidden = true;
+  }
+
+  if (consentBanner) {
+    const stored = readConsent();
+    applyConsent(stored === 'granted');
+    if (stored === null) consentBanner.hidden = false;
+
+    document.getElementById('consentAccept').addEventListener('click', () => setConsent(true));
+    document.getElementById('consentDeny').addEventListener('click', () => setConsent(false));
+    document.getElementById('consentOpen').addEventListener('click', () => {
+      consentBanner.hidden = false;
+      document.getElementById('consentAccept').focus();
     });
   }
 

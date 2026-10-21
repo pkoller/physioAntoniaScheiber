@@ -1,4 +1,4 @@
-# PhysioAntonia — Project Context
+# PhysioAntoniaScheiber.at — Project Context
 
 ## What this is
 A static homepage for a physiotherapist named Antonia, plus Impressum/Datenschutz pages. No build tools, no framework, no dependencies. Opens directly in a browser via `file://`.
@@ -109,7 +109,7 @@ Every visible text element on `index.html` that differs between languages carrie
 - About-me photo: `about__photo-placeholder`-style treatment no longer applies here — the About section is now text-only; if a photo is wanted, add it as a proper `<img>` similar to the hero pattern
 - Address (Anichstraße 34, 6020 Innsbruck), email (`antonia@tzaphysio.at`), and the Google Maps embed are already real
 - `impressum.html` and `datenschutz.html` carry the final legal text — no placeholders left
-- Website links: the homepage contact section links to the TZA practice site (`tzaphysio.at`); the Impressum and everything else use `physioantonia.at`
+- Website links: the homepage contact section links to the TZA practice site (`tzaphysio.at`); the Impressum and everything else use `physioantoniascheiber.at`
 
 ## GitHub & Hosting
 Public repo: `https://github.com/pkoller/physiotoni`. **`master` is protected — no direct pushes.** Always work on a branch and open a PR:

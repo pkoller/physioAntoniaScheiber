@@ -923,7 +923,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .header__phone { display: none; }
   .header__email-text { display: none; }
   .header__inner { gap: 0.75rem; }
-  .logo--mobile { display: block; font-size: 1.15rem; }
+  .logo--mobile { display: block; font-size: 1.15rem; line-height: 1.15; flex-shrink: 1; min-width: 0; }
 
   .sidebar {
     z-index: 300;

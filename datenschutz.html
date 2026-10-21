@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Datenschutz – PhysioAntoniaScheiber.at</title>
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body class="legal-page">
 
@@ -58,10 +58,11 @@
       <h2>4. Schriftarten</h2>
       <p>Die auf dieser Website verwendeten Schriftarten (Lora, Raleway) sind lokal auf unserem Server gespeichert und werden von dort geladen. Es findet dabei keine Verbindung zu Servern von Google oder anderen Drittanbietern statt.</p>
 
-      <h2>5. Google Maps und Cookies</h2>
-      <p>Diese Website setzt selbst keine Cookies, speichert nichts in Ihrem Browser und verwendet keine Analyse- oder Tracking-Dienste.</p>
-      <p>Im Kontaktbereich kann eine Karte von Google Maps (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) angezeigt werden, um Ihnen die Anfahrt zur Praxis zu erleichtern. Die Karte wird <strong>nicht automatisch</strong> geladen, sondern erst, wenn Sie auf die Schaltfläche „Karte laden“ klicken. Erst dann werden Daten, insbesondere Ihre IP-Adresse, an Google übermittelt; Google kann dabei Cookies setzen und Daten in die USA übertragen (Google ist unter dem EU-US Data Privacy Framework zertifiziert). Rechtsgrundlage ist Ihre Einwilligung durch diesen Klick (Art. 6 Abs. 1 lit. a DSGVO, § 165 Abs. 3 TKG 2021).</p>
-      <p>Ihre Entscheidung wird nicht gespeichert: Bei jedem neuen Aufruf der Seite ist die Karte wieder deaktiviert, bis Sie sie erneut laden. Solange Sie die Karte nicht laden, werden keine Daten an Google übermittelt.</p>
+      <h2>5. Google Maps, Cookies und lokale Speicherung</h2>
+      <p>Diese Website setzt selbst keine Cookies und verwendet keine Analyse- oder Tracking-Dienste.</p>
+      <p>Im Kontaktbereich kann eine Karte von Google Maps (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) angezeigt werden, um Ihnen die Anfahrt zur Praxis zu erleichtern. Die Karte wird <strong>nur nach Ihrer ausdrücklichen Einwilligung</strong> über den Cookie-Hinweis geladen. Erst dann werden Daten, insbesondere Ihre IP-Adresse, an Google übermittelt; Google kann dabei Cookies setzen und Daten in die USA übertragen (Google ist unter dem EU-US Data Privacy Framework zertifiziert). Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 165 Abs. 3 TKG 2021).</p>
+      <p>Um Ihre Entscheidung zu speichern, legen wir im lokalen Speicher Ihres Browsers (<em>localStorage</em>) einen einzigen Eintrag ab („granted“ oder „denied“). Dieser Eintrag ist technisch unbedingt erforderlich, um Ihre Wahl zu respektieren, wird nicht an uns übertragen und bleibt gespeichert, bis Sie ihn löschen.</p>
+      <p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen – über „Cookie-Einstellungen“ im Fußbereich der Startseite oder direkt hier: <button type="button" class="legal-link-btn" id="consentRevoke">Einwilligung widerrufen</button><span id="consentRevokeStatus" role="status"></span></p>
       <p>Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
 
       <h2>6. Ihre Rechte</h2>
@@ -87,6 +88,10 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('consentRevoke').addEventListener('click', function () {
+      try { localStorage.setItem('physioantonia-consent-maps', 'denied'); } catch (e) {}
+      document.getElementById('consentRevokeStatus').textContent = ' – Einwilligung widerrufen. Die Karte wird nicht mehr geladen.';
+    });
   </script>
 </body>
 </html>

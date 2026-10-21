@@ -26,7 +26,7 @@ Lora (Überschriften) und Raleway (Fließtext) liegen als woff2-Dateien in `font
 
 ## Cookies & Google Maps
 
-Die Website setzt keine Cookies und speichert nichts im Browser — daher gibt es keinen Cookie-Banner. Einziger Drittinhalt ist die Google-Maps-Karte im Kontaktbereich, eingebunden als Zwei-Klick-Lösung: Das `<iframe>` trägt `data-src` und erhält sein `src` erst, wenn der Besucher auf „Karte laden" klickt. Der Platzhaltertext informiert über die Datenübertragung an Google (inkl. USA) und verlinkt die Datenschutzerklärung. Die Wahl wird nicht gespeichert; bei jedem Seitenaufruf ist die Karte wieder gesperrt. Neue externe Einbettungen müssen ebenfalls erst per Klick laden.
+Die Website setzt selbst keine Cookies. Einziger Drittinhalt ist die Google-Maps-Karte im Kontaktbereich; sie wird über einen Cookie-Banner (Akzeptieren / Ablehnen, gleichwertig gestaltet) freigegeben. Das `<iframe>` trägt `data-src` und erhält sein `src` erst nach Zustimmung. Die Wahl wird in `localStorage` gespeichert (`physioantonia-consent-maps`) und lässt sich über „Cookie-Einstellungen" im Footer bzw. auf der Datenschutzseite ändern. Ohne Zustimmung zeigt der Kartenbereich einen Hinweis auf die Cookie-Einstellungen. Neue externe Einbettungen müssen ebenfalls über diese Einwilligung laufen.
 
 ## Zweisprachigkeit (DE/EN)
 

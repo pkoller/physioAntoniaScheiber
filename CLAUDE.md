@@ -112,7 +112,7 @@ Every visible text element on `index.html` that differs between languages carrie
 - Website links: the homepage contact section links to the TZA practice site (`tzaphysio.at`); the Impressum and everything else use `physioantoniascheiber.at`
 
 ## GitHub & Hosting
-Public repo: `https://github.com/pkoller/physiotoni`. **`master` is protected — no direct pushes.** Always work on a branch and open a PR:
+Public repo: `https://github.com/pkoller/physioAntoniaScheiber`. **`master` is protected — no direct pushes.** Always work on a branch and open a PR:
 ```bash
 git checkout -b my-change
 git add <files>
@@ -120,8 +120,8 @@ git commit -m "..."
 git push -u origin my-change
 gh pr create --base master --head my-change --title "..." --body "..."
 ```
-Live site: `https://pkoller.github.io/physiotoni`. GitHub Pages is served from the `gh-pages` branch, published by `.github/workflows/pages-deploy.yml` on every push to `master` (that workflow needs `permissions: contents: write` — without it the push silently 403s and the branch is never updated; this has broken production before).
-Every pull request also gets a live preview at `https://pkoller.github.io/physiotoni/pr-preview/pr-<number>/`, deployed by `.github/workflows/pr-preview.yml` via `rossjrw/pr-preview-action`, and torn down when the PR closes. That workflow stages files into an isolated `_pr-preview-src/` directory before deploying — don't change it back to `source-dir: ./` (repo root), that previously caused the deploy action's own temp worktree to get recursively copied into itself on every run.
+Live site: `https://pkoller.github.io/physioAntoniaScheiber`. GitHub Pages is served from the `gh-pages` branch, published by `.github/workflows/pages-deploy.yml` on every push to `master` (that workflow needs `permissions: contents: write` — without it the push silently 403s and the branch is never updated; this has broken production before).
+Every pull request also gets a live preview at `https://pkoller.github.io/physioAntoniaScheiber/pr-preview/pr-<number>/`, deployed by `.github/workflows/pr-preview.yml` via `rossjrw/pr-preview-action`, and torn down when the PR closes. That workflow stages files into an isolated `_pr-preview-src/` directory before deploying — don't change it back to `source-dir: ./` (repo root), that previously caused the deploy action's own temp worktree to get recursively copied into itself on every run.
 `.gitignore`: `media/`, `.agents/`, `skills-lock.json`, and `_pr-preview-src/` are ignored; `.claude/` is ignored except `.claude/skills/{emil-design-eng,design-taste-frontend,redesign-existing-projects}`, which are tracked on purpose (see "Design skills" above).
 
 ## What NOT to do

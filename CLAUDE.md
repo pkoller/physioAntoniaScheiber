@@ -14,6 +14,8 @@ datenschutz.html — privacy policy (DSGVO), German only
 img/            — optimized site images (hero photo etc.)
 fonts/          — self-hosted Lora + Raleway woff2 files
 README.md       — repo overview for humans
+robots.txt      — allows all crawlers, points at sitemap.xml
+sitemap.xml     — single-URL sitemap for Google Search Console
 .claude/skills/ — reference-only design skills (see "Design skills" below)
 ```
 
@@ -24,6 +26,11 @@ README.md       — repo overview for humans
 - **Contact form → Web3Forms**: `#contactFormEl` posts via `fetch` to `api.web3forms.com/submit` (handler in `script.js`), which emails submissions to Antonia. The access key in the hidden `access_key` input is public by design (it only allows sending to the configured inbox). Web3Forms rejects server-side requests, so test from a real browser (e.g. the PR preview), not curl. Data only leaves the browser on submit; `datenschutz.html` §2 documents it.
 - **Cache-busting**: GitHub Pages serves files with `max-age=600`, so a browser can pair a fresh `index.html` with a stale `script.js` and break. Every page links `style.css?v=N` / `script.js?v=N` — bump `N` on all three HTML pages whenever `style.css` or `script.js` changes.
 - No emoji anywhere — use inline SVG icons (Lucide style: `stroke="currentColor"`, `fill="none"`, `stroke-width="1.8"–"2.5"`).
+
+## SEO
+- `index.html` `<head>` carries a keyword-led `<title>` ("Physiotherapie Innsbruck – …"), meta description, `rel="canonical"` to `https://physioantoniascheiber.at/` (keeps PR previews from competing as duplicates), and a `schema.org/Physiotherapy` JSON-LD block. Keep its name/address/phone identical to the Google Business Profile and the visible contact section — if one changes, change all.
+- Section headings name the city ("… in Innsbruck") on purpose — don't strip it in copy edits.
+- `impressum.html` / `datenschutz.html` are `noindex` on purpose.
 
 ## Design system
 Defined as CSS custom properties in `:root` in `style.css`:

@@ -697,8 +697,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .map-placeholder { padding: 1.5rem; text-align: center; }
 .map-placeholder__text { max-width: 36ch; font-size: 0.82rem; font-weight: 500; text-wrap: pretty; }
-.map-placeholder__text a { color: var(--clr-primary-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
-.map-placeholder__text a:hover { color: var(--clr-dark); }
+.map-placeholder__text a,
+.map-placeholder__consent { color: var(--clr-primary-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.map-placeholder__consent { background: none; border: none; padding: 0; font: inherit; font-weight: 600; cursor: pointer; }
+.map-placeholder__text a:hover,
+.map-placeholder__consent:hover { color: var(--clr-dark); }
 .map-placeholder[hidden] { display: none; }
 
 /* ===== FOOTER ===== */

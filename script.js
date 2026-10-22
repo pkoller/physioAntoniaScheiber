@@ -76,7 +76,7 @@
   // Google Maps embed, which loads only after the visitor agrees in the
   // banner. The choice is kept in localStorage (strictly necessary to
   // remember it — no consent needed for that) and can be changed via
-  // "Cookie-Einstellungen" in the footer.
+  // "Cookie-Einstellungen" in the footer or the link in the map placeholder.
   const CONSENT_KEY = 'physioantonia-consent-maps';
   const consentBanner = document.getElementById('consentBanner');
   const mapFrame = document.querySelector('.map[data-src]');
@@ -116,10 +116,18 @@
 
     document.getElementById('consentAccept').addEventListener('click', () => setConsent(true));
     document.getElementById('consentDeny').addEventListener('click', () => setConsent(false));
-    document.getElementById('consentOpen').addEventListener('click', () => {
+    const openConsent = () => {
       consentBanner.hidden = false;
       document.getElementById('consentAccept').focus();
-    });
+    };
+    document.getElementById('consentOpen').addEventListener('click', openConsent);
+    // The map placeholder's link lives in data-de/data-en markup that the
+    // language toggle re-renders via innerHTML, so listen on the placeholder.
+    if (mapPlaceholder) {
+      mapPlaceholder.addEventListener('click', e => {
+        if (e.target.closest('[data-consent-open]')) openConsent();
+      });
+    }
   }
 
   // ===== CONTACT FORM (Web3Forms) =====

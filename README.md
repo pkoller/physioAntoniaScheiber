@@ -2,7 +2,7 @@
 
 Website für die Physiotherapie-Praxis **PhysioAntoniaScheiber.at** in Innsbruck.
 
-**Live:** https://pkoller.github.io/physioAntoniaScheiber/ (künftig: physioantoniascheiber.at)
+**Live:** https://physioantoniascheiber.at/
 
 ## Tech
 

@@ -20,3 +20,5 @@ jobs:
           publish_dir: ./
           keep_files: true
           exclude_assets: '.github,.gitignore'
+          # Writes the CNAME file on gh-pages so the custom domain survives every deploy
+          cname: physioantoniascheiber.at

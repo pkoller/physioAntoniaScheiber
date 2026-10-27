@@ -177,13 +177,13 @@ p, li, dd { text-wrap: pretty; }
   flex: none;
   display: inline-grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.25rem;
-  background: var(--white); /* the number sits on the white band */
+  width: 2.8rem;
+  height: 2.6rem;
+  background: var(--white); /* the number sits on the white band (44% of the height) */
   color: var(--ink);
   font-family: var(--font-sign);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   line-height: 1;
   letter-spacing: 0;
 }
@@ -192,13 +192,22 @@ p, li, dd { text-wrap: pretty; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(var(--blaze) 0 33.34%, transparent 33.34% 66.66%, var(--blaze) 66.66%);
+  background: linear-gradient(var(--blaze) 0 28%, transparent 28% 72%, var(--blaze) 72%);
   box-shadow: inset 0 0 0 1px rgba(23, 25, 27, 0.35);
 }
-.blaze--sm {
-  width: 1.9rem;
-  height: 1.7rem;
-  font-size: 0.82rem;
+.nav__num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.2rem;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-sign);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 /* ===== PLATES (arrow-shaped sign plates with a thin ink frame) ===== */
@@ -274,7 +283,6 @@ a.plate:focus-visible::after {
   padding-block: 0.32em;
   margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
 }
-.plate--heading .blaze { font-size: 0.95rem; }
 
 /* ===== ZUSATZTAFEL (white supplementary plate for short facts) ===== */
 .zusatz {
@@ -447,15 +455,15 @@ a.plate:focus-visible::after {
 .here {
   position: absolute;
   top: calc(100% + var(--frame));
-  left: var(--gutter);
+  left: 0;
+  right: 0;
   z-index: -1;
   display: none;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0.7rem 0.3rem;
+  padding: 0.3rem var(--gutter) 0.35rem;
   background: var(--white);
-  border: var(--frame) solid var(--ink);
-  border-top: 0;
+  border-bottom: var(--frame) solid var(--ink);
   font-family: var(--font-sign);
   font-weight: 600;
   font-size: 1rem;
@@ -471,7 +479,7 @@ a.plate:focus-visible::after {
 
 /* ===== HERO ===== */
 .hero {
-  --sec-pad: clamp(72px, 9vw, 128px);
+  --sec-pad: clamp(40px, 5vw, 64px);
   padding-top: clamp(36px, 5vw, 72px);
   padding-bottom: var(--sec-pad);
 }
@@ -487,7 +495,6 @@ a.plate:focus-visible::after {
   font-size: clamp(3rem, 6.4vw, 5.75rem);
   line-height: 0.94;
   letter-spacing: -0.01em;
-  max-width: 11ch;
 }
 .hero__sub {
   margin-top: 1.4rem;
@@ -507,7 +514,7 @@ a.plate:focus-visible::after {
 .plate--small { font-size: 1.45rem; }
 .hero__credential { margin-top: 1.5rem; }
 
-.routes { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
+.routes { margin-top: clamp(0.5rem, 2vw, 1.5rem); }
 .routes__list { display: grid; gap: 0.55rem; }
 /* Plates on one post share a length, like a real Wegweiser */
 .plate--route {
@@ -515,7 +522,6 @@ a.plate:focus-visible::after {
   width: min(30rem, 100% + var(--post-off) + 8px);
   font-size: clamp(1.55rem, 2.3vw, 1.9rem);
 }
-.plate--route .blaze { font-size: 0.95rem; }
 
 .hero__photo { margin: 0; }
 .hero__photo img {
@@ -609,14 +615,7 @@ a.plate:focus-visible::after {
   border-top: 3px solid var(--ink);
   padding-top: 0.9rem;
 }
-.steps__num {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-family: var(--font-sign);
-  font-weight: 700;
-  font-size: 3rem;
-  line-height: 1;
-}
+.steps__label { margin-bottom: 0.9rem; }
 .steps__item p { max-width: 42ch; }
 
 /* ===== 5 KONTAKT ===== */
@@ -848,9 +847,16 @@ a.plate:focus-visible::after {
 }
 
 @media (min-width: 1000px) {
-  .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
-  /* the photo bleeds to the right edge of the window */
+  .hero__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "lead photo" "routes photo";
+    align-items: start;
+  }
+  .hero__lead { grid-area: lead; }
+  .routes { grid-area: routes; margin-top: 0; }
+  /* the photo bleeds to the right edge of the window and stays beside the route sign */
   .hero__photo {
+    grid-area: photo;
     position: sticky;
     top: calc(var(--header-h) + 24px);
     margin-right: calc(-1 * max(var(--gutter), (100vw - 1240px) / 2));
@@ -921,15 +927,8 @@ a.plate:focus-visible::after {
     clip-path: polygon(0 0, calc(100% - var(--tip) + 1px) 0, 100% 50%, calc(100% - var(--tip) + 1px) 100%, 0 100%);
   }
   .nav__link.is-active { --face: var(--white); }
-  .nav__link .blaze::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(var(--blaze) 0 33.34%, transparent 33.34% 66.66%, var(--blaze) 66.66%);
-  box-shadow: inset 0 0 0 1px rgba(23, 25, 27, 0.35);
-}
-.blaze--sm { width: 2.2rem; height: 2rem; font-size: 0.9rem; }
+  .nav__link .nav__num { min-width: 2.1rem; height: 2.1rem; font-size: 1.15rem; }
+  html { scroll-padding-top: calc(var(--header-h) + 64px); }
 }
 
 @media (max-width: 767px) {

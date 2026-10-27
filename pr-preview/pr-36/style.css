@@ -172,19 +172,28 @@ p, li, dd { text-wrap: pretty; }
 
 /* ===== BLAZE (red-white-red trail marker carrying a route number) ===== */
 .blaze {
+  position: relative;
+  isolation: isolate;
   flex: none;
   display: inline-grid;
   place-items: center;
   width: 2.5rem;
   height: 2.25rem;
-  background: linear-gradient(var(--blaze) 0 33.34%, var(--white) 33.34% 66.66%, var(--blaze) 66.66%);
-  box-shadow: inset 0 0 0 1px rgba(23, 25, 27, 0.35);
+  background: var(--white); /* the number sits on the white band */
   color: var(--ink);
   font-family: var(--font-sign);
   font-weight: 700;
   font-size: 0.95rem;
   line-height: 1;
   letter-spacing: 0;
+}
+.blaze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--blaze) 0 33.34%, transparent 33.34% 66.66%, var(--blaze) 66.66%);
+  box-shadow: inset 0 0 0 1px rgba(23, 25, 27, 0.35);
 }
 .blaze--sm {
   width: 1.9rem;
@@ -209,7 +218,7 @@ p, li, dd { text-wrap: pretty; }
   clip-path: polygon(0 0, calc(100% - var(--tip)) 0, 100% 50%, calc(100% - var(--tip)) 100%, 0 100%);
   font-family: var(--font-sign);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: 0.005em;
   text-decoration: none;
 }
@@ -255,7 +264,7 @@ a.plate:focus-visible::after {
   display: block;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.56em;
+  font-size: 1rem;
   line-height: 1.3;
   color: var(--ink-soft);
 }
@@ -552,7 +561,7 @@ a.plate:focus-visible::after {
   font-family: var(--font-sign);
   font-weight: 600;
   font-size: clamp(1.55rem, 2.5vw, 2.1rem);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 /* ===== 2 HAUSBESUCHE ===== */
@@ -641,7 +650,7 @@ a.plate:focus-visible::after {
   background: var(--white);
   color: var(--ink);
   border: var(--frame) solid var(--ink);
-  padding: clamp(1.4rem, 3vw, 2.5rem);
+  padding: 2.25rem;
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 .contact-form-wrap__title {
@@ -696,17 +705,17 @@ a.plate:focus-visible::after {
 .form-error[hidden] { display: none; }
 .form-error__icon { flex: none; margin-top: 0.15rem; }
 .form-error a { color: var(--blaze-text); font-weight: 700; }
-.form-success { display: grid; justify-items: start; gap: 0.8rem; }
+.form-success {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.8rem 1rem;
+}
+.form-success__text, .form-success .btn { grid-column: 1 / -1; justify-self: start; }
 .form-success[hidden] { display: none; }
 .form-success:focus { outline: none; }
-.form-success__icon {
-  display: inline-grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  background: var(--yellow);
-  border: var(--frame) solid var(--ink);
-}
+.form-success__icon { color: var(--ink); }
+.form-success__icon svg { width: 36px; height: 36px; }
 .form-success__title { font-family: var(--font-sign); font-weight: 700; font-size: 1.8rem; line-height: 1.1; }
 .contact-form-wrap__note {
   margin-top: 1.5rem;
@@ -852,8 +861,8 @@ a.plate:focus-visible::after {
   .map-wrap { grid-column: 1 / -1; }
 }
 
-/* Nav collapses into the drawer: a signpost of plates */
-@media (max-width: 1099px) {
+/* Nav collapses into the drawer (a signpost of plates) below 1280px, where the inline nav no longer fits */
+@media (max-width: 1279px) {
   .hamburger { display: inline-flex; }
   .here { display: flex; }
   .nav {
@@ -912,7 +921,15 @@ a.plate:focus-visible::after {
     clip-path: polygon(0 0, calc(100% - var(--tip) + 1px) 0, 100% 50%, calc(100% - var(--tip) + 1px) 100%, 0 100%);
   }
   .nav__link.is-active { --face: var(--white); }
-  .nav__link .blaze--sm { width: 2.2rem; height: 2rem; font-size: 0.9rem; }
+  .nav__link .blaze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--blaze) 0 33.34%, transparent 33.34% 66.66%, var(--blaze) 66.66%);
+  box-shadow: inset 0 0 0 1px rgba(23, 25, 27, 0.35);
+}
+.blaze--sm { width: 2.2rem; height: 2rem; font-size: 0.9rem; }
 }
 
 @media (max-width: 767px) {
@@ -930,6 +947,7 @@ a.plate:focus-visible::after {
   .hamburger { width: 44px; height: 44px; }
 
   .route__stage { grid-template-columns: minmax(0, 1fr); }
+  .contact-form-wrap { padding: 1.4rem; }
   .hero__credential { display: grid; gap: 0.15em; }
   .hero__credential .zusatz__year { border-right: 0; padding-right: 0; }
   .hero__photo img { aspect-ratio: 4 / 4.2; }
@@ -960,9 +978,19 @@ a.plate:focus-visible::after {
   .footer { padding-bottom: calc(1.75rem + 64px); }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
+  .header__inner { gap: 0.5rem; }
+  .logo { padding: 0.3rem 0.5rem; }
+  .logo__name { font-size: 1.05rem; }
   .logo__place { display: none; }
-  .plate--call { font-size: 1.85rem; }
+  .header__actions { gap: 0.35rem; }
+  .lang-toggle { padding: 0.3rem 0.4rem; font-size: 0.95rem; }
+  .header__phone, .hamburger { width: 42px; min-height: 42px; justify-content: center; padding: 0; }
+  .hamburger { height: 42px; }
+}
+@media (max-width: 360px) {
+  .plate--call, .plate--call-end { font-size: 1.65rem; }
+  .logo__name { font-size: 1rem; white-space: normal; max-width: 6.5rem; }
 }
 
 @media (hover: none) {

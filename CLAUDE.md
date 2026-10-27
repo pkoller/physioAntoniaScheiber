@@ -14,6 +14,7 @@ datenschutz.html — privacy policy (DSGVO), German only
 img/            — optimized site images (hero photo etc.)
 fonts/          — self-hosted Lora + Raleway woff2 files
 README.md       — repo overview for humans
+PRODUCT.md      — product context (audiences, positioning, evidence) for the impeccable design skill
 robots.txt      — allows all crawlers, points at sitemap.xml
 sitemap.xml     — single-URL sitemap for Google Search Console
 .claude/skills/ — reference-only design skills (see "Design skills" below)

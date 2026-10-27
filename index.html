@@ -25,7 +25,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png" />
   <link rel="preload" href="fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <!-- Structured data for Google (local business / knowledge panel). Keep NAP (name, address, phone) identical to the Google Business Profile. -->
   <script type="application/ld+json">
   {
@@ -75,11 +75,11 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Hauptnavigation">
-        <a href="#leistungen-title" class="nav__link"><span class="blaze blaze--sm" aria-hidden="true">1</span><span class="nav__label" data-de="Physiotherapie" data-en="Physiotherapy">Physiotherapie</span></a>
-        <a href="#hausbesuche-title" class="nav__link"><span class="blaze blaze--sm" aria-hidden="true">2</span><span class="nav__label" data-de="Hausbesuche" data-en="Home visits">Hausbesuche</span></a>
-        <a href="#ueber-uns-title" class="nav__link"><span class="blaze blaze--sm" aria-hidden="true">3</span><span class="nav__label" data-de="Über mich" data-en="About me">Über mich</span></a>
-        <a href="#kosten-title" class="nav__link"><span class="blaze blaze--sm" aria-hidden="true">4</span><span class="nav__label" data-de="Kostenübernahme" data-en="Costs">Kostenübernahme</span></a>
-        <a href="#kontakt-title" class="nav__link"><span class="blaze blaze--sm" aria-hidden="true">5</span><span class="nav__label" data-de="Kontakt" data-en="Contact">Kontakt</span></a>
+        <a href="#leistungen-title" class="nav__link"><span class="nav__num" aria-hidden="true">1</span><span class="nav__label" data-de="Physiotherapie" data-en="Physiotherapy">Physiotherapie</span></a>
+        <a href="#hausbesuche-title" class="nav__link"><span class="nav__num" aria-hidden="true">2</span><span class="nav__label" data-de="Hausbesuche" data-en="Home visits">Hausbesuche</span></a>
+        <a href="#ueber-uns-title" class="nav__link"><span class="nav__num" aria-hidden="true">3</span><span class="nav__label" data-de="Über mich" data-en="About me">Über mich</span></a>
+        <a href="#kosten-title" class="nav__link"><span class="nav__num" aria-hidden="true">4</span><span class="nav__label" data-de="Kostenübernahme" data-en="Costs">Kostenübernahme</span></a>
+        <a href="#kontakt-title" class="nav__link"><span class="nav__num" aria-hidden="true">5</span><span class="nav__label" data-de="Kontakt" data-en="Contact">Kontakt</span></a>
       </nav>
 
       <div class="header__actions">
@@ -100,7 +100,7 @@
     <!-- "You are here" plate: names the current section on small screens, where the nav sits in the drawer -->
     <p class="here" id="here" aria-hidden="true">
       <span class="here__label" data-de="Sie sind hier" data-en="You are here">Sie sind hier</span>
-      <span class="blaze blaze--sm" id="hereNum">1</span>
+      <span class="nav__num" id="hereNum">1</span>
       <span class="here__place" id="herePlace"></span>
     </p>
   </header>
@@ -109,8 +109,8 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero" aria-labelledby="heroTitle">
-    <div class="container hero__grid">
-      <div class="hero__sign post">
+    <div class="container hero__grid post">
+      <div class="hero__lead">
         <h1 class="hero__title" id="heroTitle" data-de="Ihre Gesundheit in guten Händen" data-en="Your health in good hands">Ihre Gesundheit in guten Händen</h1>
         <p class="hero__sub" data-de="Nach einer Operation, einem Unfall oder bei Schmerzen und eingeschränkter Mobilität – mit individueller Betreuung finden wir gemeinsam zurück zu mehr Kraft, Beweglichkeit und Lebensqualität." data-en="After surgery or an accident, or with pain and limited mobility – with individual care, together we find our way back to more strength, mobility and quality of life.">Nach einer Operation, einem Unfall oder bei Schmerzen und eingeschränkter Mobilität – mit individueller Betreuung finden wir gemeinsam zurück zu mehr Kraft, Beweglichkeit und Lebensqualität.</p>
 
@@ -130,21 +130,22 @@
           <span data-de="Physiotherapeutin des ÖSV Ski Alpin Teams der Damen" data-en="Physiotherapist for the Austrian Ski Federation (ÖSV) women's alpine ski team">Physiotherapeutin des ÖSV Ski Alpin Teams der Damen</span>
         </p>
 
-        <nav class="routes" aria-labelledby="routesTitle">
-          <h2 class="visually-hidden" id="routesTitle" data-de="Übersicht" data-en="Overview">Übersicht</h2>
-          <ol class="routes__list">
-            <li><a class="plate plate--route" href="#leistungen-title"><span class="blaze" aria-hidden="true">1</span><span class="plate__text"><span class="plate__dest" data-de="Physiotherapie" data-en="Physiotherapy">Physiotherapie</span><span class="plate__via" data-de="Nach Operation, Unfall, bei Schmerzen" data-en="After surgery or injury, for pain">Nach Operation, Unfall, bei Schmerzen</span></span></a></li>
-            <li><a class="plate plate--route" href="#hausbesuche-title"><span class="blaze" aria-hidden="true">2</span><span class="plate__text"><span class="plate__dest" data-de="Hausbesuche" data-en="Home visits">Hausbesuche</span><span class="plate__via" data-de="Ich komme zu Ihnen – in Innsbruck Stadt" data-en="I come to you – within Innsbruck city">Ich komme zu Ihnen – in Innsbruck Stadt</span></span></a></li>
-            <li><a class="plate plate--route" href="#ueber-uns-title"><span class="blaze" aria-hidden="true">3</span><span class="plate__text"><span class="plate__dest" data-de="Über mich" data-en="About me">Über mich</span><span class="plate__via" data-de="Ausbildung und Werdegang" data-en="Training and career">Ausbildung und Werdegang</span></span></a></li>
-            <li><a class="plate plate--route" href="#kosten-title"><span class="blaze" aria-hidden="true">4</span><span class="plate__text"><span class="plate__dest" data-de="Kostenübernahme" data-en="Costs &amp; insurance">Kostenübernahme</span><span class="plate__via" data-de="Verordnung und Krankenkasse" data-en="Referral and health insurance">Verordnung und Krankenkasse</span></span></a></li>
-            <li><a class="plate plate--route" href="#kontakt-title"><span class="blaze" aria-hidden="true">5</span><span class="plate__text"><span class="plate__dest" data-de="Kontakt &amp; Anfahrt" data-en="Contact &amp; location">Kontakt &amp; Anfahrt</span><span class="plate__via" data-de="Anichstraße 34, Innsbruck" data-en="Anichstraße 34, Innsbruck">Anichstraße 34, Innsbruck</span></span></a></li>
-          </ol>
-        </nav>
       </div>
 
       <figure class="hero__photo">
         <img src="img/hero1.jpg" alt="Physiotherapeutin behandelt eine Patientin an der Halswirbelsäule" width="1000" height="1250" fetchpriority="high" />
       </figure>
+
+      <nav class="routes" aria-labelledby="routesTitle">
+        <h2 class="visually-hidden" id="routesTitle" data-de="Übersicht" data-en="Overview">Übersicht</h2>
+        <ol class="routes__list">
+          <li><a class="plate plate--route" href="#leistungen-title"><span class="blaze" aria-hidden="true">1</span><span class="plate__text"><span class="plate__dest" data-de="Physiotherapie" data-en="Physiotherapy">Physiotherapie</span><span class="plate__via" data-de="Nach Operation, Unfall, bei Schmerzen" data-en="After surgery or injury, for pain">Nach Operation, Unfall, bei Schmerzen</span></span></a></li>
+          <li><a class="plate plate--route" href="#hausbesuche-title"><span class="blaze" aria-hidden="true">2</span><span class="plate__text"><span class="plate__dest" data-de="Hausbesuche" data-en="Home visits">Hausbesuche</span><span class="plate__via" data-de="Ich komme zu Ihnen – in Innsbruck Stadt" data-en="I come to you – within Innsbruck city">Ich komme zu Ihnen – in Innsbruck Stadt</span></span></a></li>
+          <li><a class="plate plate--route" href="#ueber-uns-title"><span class="blaze" aria-hidden="true">3</span><span class="plate__text"><span class="plate__dest" data-de="Über mich" data-en="About me">Über mich</span><span class="plate__via" data-de="Ausbildung und Werdegang" data-en="Training and career">Ausbildung und Werdegang</span></span></a></li>
+          <li><a class="plate plate--route" href="#kosten-title"><span class="blaze" aria-hidden="true">4</span><span class="plate__text"><span class="plate__dest" data-de="Kostenübernahme" data-en="Costs &amp; insurance">Kostenübernahme</span><span class="plate__via" data-de="Verordnung und Krankenkasse" data-en="Referral and health insurance">Verordnung und Krankenkasse</span></span></a></li>
+          <li><a class="plate plate--route" href="#kontakt-title"><span class="blaze" aria-hidden="true">5</span><span class="plate__text"><span class="plate__dest" data-de="Kontakt &amp; Anfahrt" data-en="Contact &amp; location">Kontakt &amp; Anfahrt</span><span class="plate__via" data-de="Anichstraße 34, Innsbruck" data-en="Anichstraße 34, Innsbruck">Anichstraße 34, Innsbruck</span></span></a></li>
+        </ol>
+      </nav>
     </div>
   </section>
 
@@ -208,7 +209,7 @@
             <span class="route__what" data-de="Studium der Sportwissenschaften an der Universität Innsbruck" data-en="Sports science studies at the University of Innsbruck">Studium der Sportwissenschaften an der Universität Innsbruck</span>
           </li>
           <li class="route__stage route__stage--aside">
-            <span class="route__when" data-de="parallel" data-en="alongside">parallel</span>
+            <span class="route__when" aria-hidden="true"></span>
             <span class="route__what" data-de="Parallel dazu Arbeit als Physiotherapeutin in einem Therapieinstitut in Innsbruck" data-en="Alongside this, work as a physiotherapist at a therapy institute in Innsbruck">Parallel dazu Arbeit als Physiotherapeutin in einem Therapieinstitut in Innsbruck</span>
           </li>
           <li class="route__stage route__stage--peak">
@@ -238,20 +239,20 @@
   <section class="section section--board" id="kosten">
     <div class="container post">
       <h2 class="plate plate--heading plate--white" id="kosten-title"><span class="blaze" aria-hidden="true">4</span><span data-de="Kostenübernahme" data-en="Costs &amp; insurance">Kostenübernahme</span></h2>
-      <ol class="steps">
+      <ul class="steps">
         <li class="steps__item">
-          <span class="steps__num" aria-hidden="true">1</span>
+          <h3 class="zusatz steps__label" data-de="Verordnung" data-en="Referral">Verordnung</h3>
           <p data-de="Vor Therapiebeginn benötigen Sie eine Verordnung (Überweisung) eines/r Hausärzt*in oder Fachärzt*in." data-en="Before therapy begins, you need a prescription (referral) from a general practitioner or specialist.">Vor Therapiebeginn benötigen Sie eine Verordnung (Überweisung) eines/r Hausärzt*in oder Fachärzt*in.</p>
         </li>
         <li class="steps__item">
-          <span class="steps__num" aria-hidden="true">2</span>
+          <h3 class="zusatz steps__label" data-de="Wahltherapeutin" data-en="Elective therapist">Wahltherapeutin</h3>
           <p data-de="Da ich als Wahltherapeutin tätig bin, übernimmt die Krankenkasse in der Regel nur einen Teil der Behandlungskosten. Die Höhe davon hängt von Ihrer jeweiligen Krankenkasse ab. Der verbleibende Betrag muss selbst bezahlt werden oder kann von einer Zusatz- bzw. Unfallversicherung übernommen werden." data-en="As I work as an elective (non-contracted) therapist, health insurance usually covers only part of the treatment costs. The amount depends on your health insurance provider. The remaining amount must be paid privately or may be covered by supplementary or accident insurance.">Da ich als Wahltherapeutin tätig bin, übernimmt die Krankenkasse in der Regel nur einen Teil der Behandlungskosten. Die Höhe davon hängt von Ihrer jeweiligen Krankenkasse ab. Der verbleibende Betrag muss selbst bezahlt werden oder kann von einer Zusatz- bzw. Unfallversicherung übernommen werden.</p>
         </li>
         <li class="steps__item">
-          <span class="steps__num" aria-hidden="true">3</span>
+          <h3 class="zusatz steps__label" data-de="Bewilligung" data-en="Approval">Bewilligung</h3>
           <p data-de="Je nach Krankenversicherung kann für die Kostenrückerstattung eine Bewilligung erforderlich sein, vor allem bei Hausbesuchen. Bitte informieren Sie sich bei Ihrer Krankenkasse über die für Sie geltenden Bestimmungen." data-en="Depending on your insurance, approval may be required for reimbursement, especially for home visits. Please check with your health insurance provider which terms apply to you.">Je nach Krankenversicherung kann für die Kostenrückerstattung eine Bewilligung erforderlich sein, vor allem bei Hausbesuchen. Bitte informieren Sie sich bei Ihrer Krankenkasse über die für Sie geltenden Bestimmungen.</p>
         </li>
-      </ol>
+      </ul>
     </div>
   </section>
 
@@ -384,6 +385,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

@@ -235,7 +235,7 @@
     if (!here) return;
     here.classList.toggle('is-visible', Boolean(activeLink));
     if (!activeLink) return;
-    hereNum.textContent = activeLink.querySelector('.blaze').textContent;
+    hereNum.textContent = activeLink.querySelector('.nav__num').textContent;
     herePlace.textContent = activeLink.querySelector('.nav__label').textContent;
   }
 

@@ -54,15 +54,18 @@
 /* Three inks (sign yellow, ink, blaze red) + white, on limestone ground, anthracite post. */
 :root {
   --yellow:        #F5C400; /* sign plates, call actions, the Kosten board */
+  --yellow-hover:  #FFD21F; /* button hover */
   --ink:           #17191B; /* lettering, plate frames, rules */
   --ink-soft:      #3B4044; /* secondary text: >=6.4:1 on yellow, >=8:1 on ground */
   --blaze:         #C8102E; /* red-white-red trail blaze, focus ring on white */
   --blaze-text:    #A50D26; /* blaze red as text (errors) on white: >=7:1 */
   --white:         #FFFFFF;
+  --white-hover:   #FAFAF8; /* input hover */
   --ground:        #E4E5E0; /* limestone page ground */
   --ground-deep:   #D6D8D1; /* alternate section ground */
   --post:          #2A2D30; /* the signpost, map placeholder */
   --post-deep:     #1D1F21; /* contact section, footer */
+  --post-rule:     #3A3E41; /* hairline between contact section and footer */
   --on-post:       #F1F2EE; /* text on post colours: >=13:1 */
   --on-post-soft:  #B8BDB9; /* secondary text on post colours: >=8:1 */
   --font-sign:     'Barlow Condensed', 'Arial Narrow', sans-serif;
@@ -327,7 +330,7 @@ a.plate:focus-visible::after {
   text-decoration: none;
   transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out);
 }
-.btn:hover { background: #FFD21F; }
+.btn:hover { background: var(--yellow-hover); }
 .btn:active { transform: scale(0.97); }
 .btn--outline { background: var(--white); }
 .btn--outline:hover { background: var(--ground); }
@@ -681,7 +684,7 @@ a.plate:focus-visible::after {
   font-size: 1.15rem;
   transition: background-color 160ms var(--ease-out);
 }
-.form-input:hover { background: #FAFAF8; }
+.form-input:hover { background: var(--white-hover); }
 .form-input:focus-visible { outline: 3px solid var(--blaze); outline-offset: 2px; }
 .form-input--textarea { min-height: 9rem; resize: vertical; }
 .form-input[aria-invalid="true"] { border-color: var(--blaze); border-width: 3px; }
@@ -763,7 +766,7 @@ a.plate:focus-visible::after {
   --focus: var(--yellow);
   background: var(--post-deep);
   color: var(--on-post-soft);
-  border-top: 1px solid #3A3E41;
+  border-top: 1px solid var(--post-rule);
   padding-block: 1.75rem;
   font-size: 1rem;
 }

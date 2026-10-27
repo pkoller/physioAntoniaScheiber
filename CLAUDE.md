@@ -40,6 +40,7 @@ The page is one Tyrolean trail signpost: an anthracite post (`.post::before`) ru
 | Token | Value | Use |
 |-------|-------|-----|
 | `--yellow` | `#F5C400` | Sign plates, call actions, header phone, mobile call bar, the Kosten board |
+| `--yellow-hover` / `--white-hover` / `--post-rule` | `#FFD21F` / `#FAFAF8` / `#3A3E41` | Button hover / input hover / contact–footer hairline |
 | `--ink` | `#17191B` | Lettering, plate frames, rules (10.8:1 on yellow) |
 | `--ink-soft` | `#3B4044` | Secondary text (≥6.4:1 on yellow, ≥8:1 on the grounds) |
 | `--blaze` / `--blaze-text` | `#C8102E` / `#A50D26` | Trail-blaze stripes and focus ring on white / error text |

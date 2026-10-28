@@ -25,7 +25,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png" />
   <link rel="preload" href="fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <!-- Structured data for Google (local business / knowledge panel). Keep NAP (name, address, phone) identical to the Google Business Profile. -->
   <script type="application/ld+json">
   {
@@ -91,7 +91,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span class="header__phone-text num">0664 75081432</span>
         </a>
-        <button class="lang-toggle" id="langToggle" aria-label="Sprache wechseln / Switch language">
+        <button class="lang-toggle" id="langToggle" aria-label="Switch to English">
           <span class="lang-toggle__active" id="langLabel">DE</span>
           <span class="lang-toggle__sep" aria-hidden="true">/</span>
           <span class="lang-toggle__inactive" id="langOther">EN</span>
@@ -142,14 +142,14 @@
       <div class="services__index">
         <h3 class="services__label" data-de="Behandlung bzw. Nachbehandlung von:" data-en="Treatment and aftercare for:">Behandlung bzw. Nachbehandlung von:</h3>
         <ul class="index">
-          <li class="index__row"><span class="index__term" data-de="Knochenbrüche" data-en="Fractures">Knochenbrüche</span><span class="index__detail" data-de="Knochenbrüchen (z.B. Oberschenkelhalsbruch, Unterarmbruch, Stressfrakturen, …)" data-en="Bone fractures (e.g. femoral neck fracture, forearm fracture, stress fractures, …)">Knochenbrüchen (z.B. Oberschenkelhalsbruch, Unterarmbruch, Stressfrakturen, …)</span></li>
+          <li class="index__row"><span class="index__term" data-de="Knochenbrüche" data-en="Fractures">Knochenbrüche</span><span class="index__detail" data-de="z.B. Oberschenkelhalsbruch, Unterarmbruch, Stressfrakturen, …" data-en="e.g. femoral neck fracture, forearm fracture, stress fractures, …">z.B. Oberschenkelhalsbruch, Unterarmbruch, Stressfrakturen, …</span></li>
           <li class="index__row"><span class="index__term" data-de="Knie" data-en="Knee">Knie</span><span class="index__detail" data-de="Verletzungen oder Operationen des Kniegelenks (z.B. Kreuzband, Meniskus, Außen- oder Innenband, Einsatz eines künstlichen Gelenks, …)" data-en="Knee injuries or surgery (e.g. cruciate ligament, meniscus, lateral or medial collateral ligament, joint replacement, …)">Verletzungen oder Operationen des Kniegelenks (z.B. Kreuzband, Meniskus, Außen- oder Innenband, Einsatz eines künstlichen Gelenks, …)</span></li>
           <li class="index__row"><span class="index__term" data-de="Fuß &amp; Sprunggelenk" data-en="Foot &amp; ankle">Fuß &amp; Sprunggelenk</span><span class="index__detail" data-de="Verletzungen oder Operationen des Fußgelenks (z.B. Subluxation des Sprunggelenks „Umknicken“, Bänderrisse, Hallux valgus, …)" data-en="Ankle and foot injuries or surgery (e.g. ankle subluxation or “rolled ankle”, torn ligaments, hallux valgus, …)">Verletzungen oder Operationen des Fußgelenks (z.B. Subluxation des Sprunggelenks „Umknicken“, Bänderrisse, Hallux valgus, …)</span></li>
           <li class="index__row"><span class="index__term" data-de="Schulter" data-en="Shoulder">Schulter</span><span class="index__detail" data-de="Verletzungen oder Operationen des Schultergelenks (z.B. Rotatorenmanschettenriss, Luxation des Schultergelenks, …)" data-en="Shoulder injuries or surgery (e.g. rotator cuff tear, shoulder dislocation, …)">Verletzungen oder Operationen des Schultergelenks (z.B. Rotatorenmanschettenriss, Luxation des Schultergelenks, …)</span></li>
           <li class="index__row"><span class="index__term" data-de="Muskeln, Sehnen, Bänder" data-en="Muscles, tendons, ligaments">Muskeln, Sehnen, Bänder</span><span class="index__detail" data-de="Muskel-, Sehnen- oder Bänderverletzungen oder &#8209;überlastung (z.B. Tennisellbogen, Muskelfaserriss oder &#8209;zerrung, …)" data-en="Muscle, tendon or ligament injuries or overuse (e.g. tennis elbow, torn or strained muscle fibres, …)">Muskel-, Sehnen- oder Bänderverletzungen oder &#8209;überlastung (z.B. Tennisellbogen, Muskelfaserriss oder &#8209;zerrung, …)</span></li>
           <li class="index__row"><span class="index__term" data-de="Nach einem Sturz" data-en="After a fall">Nach einem Sturz</span><span class="index__detail" data-de="Verletzungen oder Unsicherheiten nach Stürzen" data-en="Injuries or unsteadiness after falls">Verletzungen oder Unsicherheiten nach Stürzen</span></li>
           <li class="index__row"><span class="index__term" data-de="Gehen &amp; Gleichgewicht" data-en="Walking &amp; balance">Gehen &amp; Gleichgewicht</span><span class="index__detail" data-de="Allgemeinen Gang- und Bewegungsunsicherheiten" data-en="General unsteadiness when walking or moving">Allgemeinen Gang- und Bewegungsunsicherheiten</span></li>
-          <li class="index__row"><span class="index__term" data-de="Rücken, Nacken, Schulter" data-en="Back, neck, shoulder">Rücken, Nacken, Schulter</span><span class="index__detail" data-de="Überlastungsbeschwerden (z.B. Rückenschmerzen, Impingement der Schulter, Nackenschmerzen, …)" data-en="Overuse complaints (e.g. back pain, shoulder impingement, neck pain, …)">Überlastungsbeschwerden (z.B. Rückenschmerzen, Impingement der Schulter, Nackenschmerzen, …)</span></li>
+          <li class="index__row"><span class="index__term" data-de="Überlastung" data-en="Overuse">Überlastung</span><span class="index__detail" data-de="Überlastungsbeschwerden (z.B. Rückenschmerzen, Impingement der Schulter, Nackenschmerzen, …)" data-en="Overuse complaints (e.g. back pain, shoulder impingement, neck pain, …)">Überlastungsbeschwerden (z.B. Rückenschmerzen, Impingement der Schulter, Nackenschmerzen, …)</span></li>
         </ul>
       </div>
       <p class="statement" data-de="Als Sportwissenschaftlerin und Physiotherapeutin verbinde ich fundiertes medizinisches Wissen mit einem aktiven, bewegungsorientierten Ansatz. Mein Ziel ist es, Beweglichkeit, Kraft und Belastbarkeit zu verbessern – für mehr Aktivität im Alltag oder eine erfolgreiche Rückkehr zum Sport." data-en="As a sports scientist and physiotherapist, I combine sound medical knowledge with an active, movement-based approach. My goal is to improve your mobility, strength and resilience – for a more active everyday life or a successful return to sport.">Als Sportwissenschaftlerin und Physiotherapeutin verbinde ich fundiertes medizinisches Wissen mit einem aktiven, bewegungsorientierten Ansatz. Mein Ziel ist es, Beweglichkeit, Kraft und Belastbarkeit zu verbessern – für mehr Aktivität im Alltag oder eine erfolgreiche Rückkehr zum Sport.</p>
@@ -353,6 +353,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

@@ -307,7 +307,7 @@ p, li, dd { text-wrap: pretty; }
   font-weight: 800;
   font-size: clamp(3.4rem, 8.2vw, 7.6rem);
   line-height: 0.9;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
 }
 .hero__role {
   font-family: var(--font-display);
@@ -454,7 +454,7 @@ p, li, dd { text-wrap: pretty; }
   font-weight: 800;
   font-size: clamp(2.3rem, 11.5vw, 8.25rem);
   line-height: 0.95;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
   transition: color 180ms var(--ease-out);
 }
@@ -664,9 +664,9 @@ p, li, dd { text-wrap: pretty; }
      fades into the slate on its left so the backdrop and the page are one field. */
   .hero__grid {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
-    min-height: min(calc(100svh - var(--header-h)), 900px);
+    min-height: min(calc(100svh - var(--header-h)), 680px);
   }
-  .hero__text { grid-column: 1; grid-row: 1; align-self: center; padding-block: clamp(3rem, 6vw, 6rem); position: relative; z-index: 1; }
+  .hero__text { grid-column: 1; grid-row: 1; align-self: center; padding-block: clamp(2.5rem, 4vw, 3.75rem); position: relative; z-index: 1; }
   .hero__photo {
     grid-column: 2;
     grid-row: 1;
@@ -821,4 +821,29 @@ p, li, dd { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* ===== SHARED REVIEW FIXES ===== */
+/* Display tracking never goes below -0.04em; the closing number is a touch looser so digits never touch */
+.bignumber__value { letter-spacing: -0.035em; }
+/* The sports-science statement reads as a quote, not a second headline */
+.statement { max-width: 34ch; font-size: clamp(1.4rem, 2vw, 1.75rem); font-weight: 500; line-height: 1.4; }
+/* On phones the consent banner stays compact so the call button remains reachable */
+@media (max-width: 767px) {
+  .consent { left: 12px; right: 12px; bottom: 12px; max-width: none; padding: 1rem 1.1rem; border-radius: 14px; }
+  .consent__title { font-size: 1.1rem; }
+  .consent__text { font-size: 0.95rem; line-height: 1.45; max-height: 7.4em; overflow-y: auto; }
+  .consent__actions { flex-wrap: nowrap; margin-top: 0.75rem; }
+  .consent__actions .btn { flex: 1; }
+}
+
+/* ===== PHOTO LANGUAGE ===== */
+/* Like the hero portrait, the other photos have no rounded frame: they run
+   to the window edge on their outer side, so the page stays one field. */
+.visits__photo img, .about__photo img { border-radius: 0; }
+@media (min-width: 1000px) {
+  .visits__photo, .about__photo { margin-left: calc(-1 * max(var(--gutter), (100vw - var(--max)) / 2)); }
+}
+@media (max-width: 999px) {
+  .visits__photo, .about__photo { margin-inline: calc(-1 * var(--gutter)); }
 }

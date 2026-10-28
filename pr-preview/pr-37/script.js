@@ -10,8 +10,10 @@
   function setLang(lang) {
     html.lang = lang;
     const isDE = lang === 'de';
-    langLabel.textContent = isDE ? 'DE' : 'EN';
-    langOther.textContent = isDE ? 'EN' : 'DE';
+    // Fixed "DE / EN" order; only the emphasis moves to the active language
+    langLabel.className = isDE ? 'lang-toggle__active' : 'lang-toggle__inactive';
+    langOther.className = isDE ? 'lang-toggle__inactive' : 'lang-toggle__active';
+    langToggle.setAttribute('aria-label', isDE ? 'Switch to English' : 'Auf Deutsch umschalten');
 
     document.querySelectorAll('[data-de]').forEach(el => {
       const text = isDE ? el.dataset.de : el.dataset.en;

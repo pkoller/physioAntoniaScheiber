@@ -7,13 +7,14 @@ A static homepage for a physiotherapist named Antonia, plus Impressum/Datenschut
 ```
 index.html      — homepage content and structure
 style.css       — all styles (imported by every page)
-script.js       — language toggle, mobile nav drawer, scroll reveals,
-                  nav active-section tracking, contact form handler, FAB
+script.js       — language toggle, mobile nav drawer, nav active-section
+                  tracking, consent banner, contact form handler, call bar
 impressum.html  — legal notice (§ 5 ECG), German only
 datenschutz.html — privacy policy (DSGVO), German only
 img/            — optimized site images (hero photo etc.)
-fonts/          — self-hosted Lora + Raleway woff2 files
+fonts/          — self-hosted Bricolage Grotesque + Source Sans 3 woff2 files
 README.md       — repo overview for humans
+PRODUCT.md      — product context (audiences, positioning, evidence) for design work
 robots.txt      — allows all crawlers, points at sitemap.xml
 sitemap.xml     — single-URL sitemap for Google Search Console
 .claude/skills/ — reference-only design skills (see "Design skills" below)
@@ -21,7 +22,7 @@ sitemap.xml     — single-URL sitemap for Google Search Console
 
 ## Tech constraints
 - **No npm, no bundler, no framework.** Keep it plain HTML/CSS/JS.
-- Fonts (Lora + Raleway, variable woff2, latin + latin-ext) are **self-hosted** in `fonts/` via `@font-face` at the top of `style.css`. Don't reintroduce the Google Fonts `<link>` — it sends visitors' IPs to Google without consent (cf. the 2022 Google-Fonts warning-letter wave in AT/DE).
+- Fonts (Bricolage Grotesque + Source Sans 3, variable woff2, latin + latin-ext) are **self-hosted** in `fonts/` via `@font-face` at the top of `style.css`. Don't reintroduce the Google Fonts `<link>` — it sends visitors' IPs to Google without consent (cf. the 2022 Google-Fonts warning-letter wave in AT/DE).
 - **Cookie/consent banner gates Google Maps** (logic in `script.js`): the site sets no cookies itself; the only third-party content, the Google Maps iframe, carries `data-src` and gets its `src` only after the visitor clicks "Akzeptieren" in the banner (`#consentBanner`). "Ablehnen" and "Akzeptieren" are styled identically on purpose (DSB/EDPB: declining must be as easy as accepting). The choice is stored in `localStorage` under `physioantonia-consent-maps` ("granted"/"denied"); the footer's "Cookie-Einstellungen" button reopens the banner, and `datenschutz.html` §5 has a revoke button. Without consent the map area shows a placeholder whose "Cookie-Einstellungen" link (`[data-consent-open]`, delegated click handler) reopens the banner — there is deliberately no "Karte laden" button that loads the map directly; consent always goes through the banner. Any new third-party embed must go through the same consent — never load it on page view.
 - **Contact form → Web3Forms**: `#contactFormEl` posts via `fetch` to `api.web3forms.com/submit` (handler in `script.js`), which emails submissions to Antonia. The access key in the hidden `access_key` input is public by design (it only allows sending to the configured inbox). Web3Forms rejects server-side requests, so test from a real browser (e.g. the PR preview), not curl. Data only leaves the browser on submit; `datenschutz.html` §2 documents it.
 - **Cache-busting**: GitHub Pages serves files with `max-age=600`, so a browser can pair a fresh `index.html` with a stale `script.js` and break. Every page links `style.css?v=N` / `script.js?v=N` — bump `N` on all three HTML pages whenever `style.css` or `script.js` changes.
@@ -32,57 +33,48 @@ sitemap.xml     — single-URL sitemap for Google Search Console
 - Section headings name the city ("… in Innsbruck") on purpose — don't strip it in copy edits.
 - `impressum.html` / `datenschutz.html` are `noindex` on purpose.
 
-## Design system
-Defined as CSS custom properties in `:root` in `style.css`:
+## Design system — "Bewegung"
+Editorial and photo-led: full-bleed photographs carry the page (movement in the hero, Antonia's portrait as a band in Über mich), a large expressive headline ("In Bewegung bleiben.") overlaps the hero photo's lower edge, cool limestone ground, green-black ink and one moss green for every action. Tokens live in `:root` in `style.css`:
 
 | Token | Value | Use |
 |-------|-------|-----|
-| `--clr-primary` | `#0891B2` | Teal — headings, accents, borders |
-| `--clr-primary-dark` | `#0E7490` | Hover states, logo |
-| `--clr-primary-text` | `#0B6A84` | Teal **as a text color** (eyebrows, links, contact labels, hovers) — ≥5.3:1 on every background |
-| `--clr-primary-light` | `#22D3EE` | Subtle accents |
-| `--clr-cta` | `#2563EB` | Blue — CTA buttons, FAB |
-| `--clr-cta-dark` | `#1D4ED8` | CTA hover |
-| `--clr-bg` | `#F2FAFC` | Page background (cyan-tinted, not plain white) |
-| `--clr-bg-alt` | `#E2F1F6` | Alternate section background |
-| `--clr-border` / `--clr-border-mid` | `#D2E9F0` / `#A6D3E0` | Card/input borders |
-| `--clr-text` | `#134E4A` | Body text |
-| `--clr-muted` | `#2F6763` | Subtitles, descriptions (was `#4E8B88`, failed contrast) |
-| `--clr-dark` | `#0D3330` | Headings, footer |
-| `--font-heading` | Lora, Georgia, serif | Section titles, logo |
-| `--font-body` | Raleway, system-ui, sans-serif | All body text |
-| `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | Entrances, button presses |
-| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | On-screen movement (drawer slide) |
-| `--sidebar-w` | `240px` | Fixed sidebar width (desktop) |
+| `--ground` / `--glacier` / `--white` | `#F4F5F2` / `#DCE9E5` / `#FFFFFF` | Limestone page ground (cool, not cream) / Hausbesuche band / inputs, consent |
+| `--ink` / `--ink-soft` / `--rule` | `#141B17` / `#4A544E` / `#D2D8D3` | Text (≥16:1) / secondary text (≥6:1 on glacier) / hairlines |
+| `--moss` / `--moss-hover` | `#2F5D4E` / `#244A3E` | **The only accent**: buttons, links, active nav, role line, ÖSV row, statement (≥7:1 on ground) |
+| `--moss-deep` / `--moss-night` / `--on-moss` / `--on-moss-soft` | `#1A3A30` / `#11261F` / `#F4F5F2` / `#BFD3CB` | Contact section / footer / text on them |
+| `--input-border` / `--error` | `#7B867F` / `#B3261E` | Form field outline / form errors |
+| `--font-display` | Bricolage Grotesque (variable) | Headline, headings, index terms, numbers |
+| `--font-body` | Source Sans 3 (variable) | Running text (base 20px) |
+| `--radius` | `8px` | Photos, form panel, map; buttons are pills |
+| `--ease-out` / `--ease-in-out` | `cubic-bezier(0.23, 1, 0.32, 1)` / `cubic-bezier(0.77, 0, 0.175, 1)` | Entrances, presses / drawer |
 
-Responsive breakpoints: 375px / 768px / 1024px / 1440px (default).
+**Rules:** one accent (moss). Display tracking never below −0.04em. No cards, no eyebrows, no uppercase labels, no "A · B" meta strings. Every text colour must reach WCAG AA; nothing is conveyed by colour alone. Use `.num` on phone numbers and years.
 
-**Contrast:** every text color must reach WCAG AA (4.5:1, or 3:1 for ≥24px / bold ≥18.7px) on its background. `--clr-primary` (#0891B2) is only 3.2–3.7:1 on the page backgrounds — use it for borders, dots and accents, never for text; use `--clr-primary-text` instead. The hero gradient's light end is `--clr-primary-dark` so the white hero text stays ≥4.5:1; don't lighten it or put `opacity` on hero text.
-
-All backgrounds and borders are shades of the teal/cyan primary — never introduce a plain gray or a hue outside this family (a past pass briefly used blue-gray neutrals and it visibly clashed; keep new surfaces cyan-tinted).
+Breakpoints: 360 / 400 / 768 / 900 / 1000 / 1180 (inline nav from 1180, drawer below).
 
 ## Layout
-- **Left sidebar nav** (`.sidebar`, fixed, `--sidebar-w` wide): logo + 5 links (Physiotherapie, Hausbesuche, Über mich, Kostenübernahme, Kontakt). On mobile (≤768px) it becomes a slide-in drawer toggled by the hamburger, animated with `var(--ease-out)`.
-- **Content is left-aligned**, not centered: `.container` has `margin: 0 0 0 5rem` on desktop (≥769px) so the left gutter matches the hero image's top spacing. Don't reintroduce `margin: 0 auto` centering on desktop.
-- **Divider panels**: the Hausbesuche and Über-mich sections each have a decorative landscape image/panel (`.housecalls__panel`, `.about__photo-placeholder`) that straddles the boundary to the section above — `position: absolute`, horizontally centered on the page, `transform: translate(-50%, -50%)` vertically centers it on the divider line. They're 20:9, square corners (no `border-radius`). The neighboring sections carry extra top/bottom padding so text never collides with the panel — on mobile this padding is `calc(20.25vw + 3rem)` (scales with the panel's own height) rather than a fixed value. When editing either section, keep the panel's `.reveal` class OFF it (see Motion below) — a transform-based reveal would fight its own positioning transform.
-- **Anchor scrolling**: nav links point at inner elements (`#leistungen-eyebrow`, `#hausbesuche-eyebrow`, `#ueber-uns-photo`, `#kosten-title`, `#kontakt-title`), each with `scroll-margin-top: 6rem` so the sticky header doesn't cover them when jumped to. "Über mich" deliberately targets Antonia's divider photo, not the heading, via an invisible `.about__anchor#ueber-uns-photo` marker at the photo's top edge. Never put a nav anchor on a transformed element (like the divider panels): Safari/iOS ignores the transform when scrolling to it and overshoots, hiding the target behind the sticky header.
+- **Header** (sticky, limestone): wordmark, five text links, moss phone pill, DE/EN (fixed order, active language bold); drawer below 1180px.
+- **Centered container** (`.container`, max 1240px). The old sidebar is gone.
+- **Hero**: `figure.hero__photo` full-bleed (`img/hausbesuche.jpg`), then `.hero__band` whose `h1` sits on a limestone box pulled up over the photo's lower edge (negative margin) — "In Bewegung bleiben." + "Physiotherapie in Innsbruck mit Antonia Scheiber"; sub + call button + "Termin anfragen"; ÖSV line.
+- **Physiotherapie**: sticky treatment photo (`img/hero1.jpg`) left, intro + two-column index + statement right.
+- **Über mich**: full-bleed portrait band (`.band`, `img/antonia.jpg`) at the top of the section, then timeline + Weiterbildungen.
+- **Anchor scrolling**: nav links point at section headings; `scroll-padding-top` keeps them clear of the sticky header.
+- **Consent banner**: compact bottom sheet on phones, bottom-right card from 768px.
 
 ## Motion & interaction conventions
 Distilled from Emil Kowalski's design-engineering principles and a taste/anti-slop audit — the deeper reference lives in `.claude/skills/` (see below); this is the everyday summary.
 
-- **Buttons get press feedback**: `transform: scale(0.97)` on `:active`, via `var(--ease-out)` at ~160–200ms. Never `transition: all` — name the exact properties.
-- **Only animate `transform` and `opacity`** (GPU-accelerated). Never animate `padding`, `width`, `height`, `top`/`left`.
-- **Hover lifts are gated off touch devices**: `@media (hover: none) { .btn:hover, .fab:hover { transform: none; } }` — a tap shouldn't leave a hover state stuck.
-- **Scroll reveals**: section content fades up on first view via `.reveal`/`.is-visible` classes + an `IntersectionObserver` in `script.js`, with a short per-section stagger (`--reveal-delay`, ~70ms steps). Everything is gated behind `@media (prefers-reduced-motion: no-preference)` — reduced-motion users get the static end state, not a stripped-down animation.
-- **Nav active-state tracks the whole `<section>`**, not the small anchor element a link scrolls to. (A past bug watched the anchor itself, which lands right under the sticky header — outside the "currently in view" band — so it never lit up on click. Fixed by observing the `<section>` via a `WeakMap` from section → nav link.)
-- **Typography**: `text-wrap: balance` on headings, `text-wrap: pretty` on body paragraphs, so lines don't end on an orphaned word.
-- **Don't over-eyebrow.** A small uppercase label above a section heading (`.section__eyebrow`) is fine on sections that need one (Physiotherapie, Hausbesuche have real content in theirs), but not on every section — "Über mich", "Kostenübernahme" and "Kontakt" intentionally have none. Repeating the same decorative label on every section is a templated-AI-slop tell; keep it to content that earns it.
-- **Keyboard-triggered or very-frequent actions get no animation.** Anything a user sees dozens of times a day (not really applicable to this small site, but keep it in mind before adding motion to something like the language toggle).
+- **Press feedback**: buttons `scale(0.97)` on `:active` (~160ms, `var(--ease-out)`). Never `transition: all`.
+- **One motion moment**: the hero photo settles from a slight zoom on load (`@keyframes settle`). No scroll reveals. Gated by `prefers-reduced-motion`.
+- **Hover states are gated off touch devices** (`@media (hover: none)`).
+- **Nav active-state tracks the whole `<section>`** (IntersectionObserver + `WeakMap` section → link).
+- **Typography**: `text-wrap: balance` on headings, `text-wrap: pretty` on paragraphs.
+- **No eyebrows/kickers above headings**, no uppercase labels.
 
 ## Design skills
 `.claude/skills/` carries reference-only design skills, invoked deliberately (not auto-loaded) when doing a deeper design pass:
 - **emil-design-eng** — full animation-timing tables, easing curves, spring-physics guidance beyond the summary above.
-- **design-taste-frontend** / **redesign-existing-projects** — anti-slop / de-templating audit checklists (this is where the eyebrow rule and the divider-panel visual variety came from).
+- **design-taste-frontend** / **redesign-existing-projects** — anti-slop / de-templating audit checklists (the current "Bewegung" approach is one of three prototyped redesign directions).
 
 These are large reference docs — read the everyday summary above first; reach for the skills themselves only when doing a substantial redesign pass, not for routine edits.
 
@@ -100,20 +92,18 @@ Every visible text element on `index.html` that differs between languages carrie
 - `impressum.html` and `datenschutz.html` are **German-only by design** — legal text isn't bilingual, don't add `data-de`/`data-en` there.
 
 ## Page sections (top → bottom, index.html)
-1. **Sidebar** — fixed left nav: logo + Physiotherapie / Hausbesuche / Über mich / Kostenübernahme / Kontakt (drawer on mobile)
-2. **Header** — sticky top bar: hamburger + mobile logo, phone, email, lang toggle
-3. **Hero** — photo left / headline + 2 CTAs right on desktop; photo shrinks and stacks on top on mobile
-4. **Physiotherapie** (`#leistungen`) — eyebrow + heading + one intro paragraph (no service cards — removed)
-5. **Hausbesuche** — intro text + bullet list + landscape divider panel straddling the section above
-6. **Über mich** (`#ueber-uns`) — heading + career list + Weiterbildungen list, full width (no eyebrow, no 2-col photo — photo is now the divider panel from Hausbesuche's boundary above)
-7. **Kostenübernahme** (`#kosten`) — heading + paragraphs on prescription requirement and Wahltherapeutin cost reimbursement
-8. **Kontakt** (`#kontakt`, white background) — heading + contact info (address/phone/email/website) in the left column, contact form top-aligned with it in the right column, Google Maps embed full-width below
-9. **Footer** — copyright + Impressum/Datenschutz links
-10. **FAB** — floating call button, mobile only
+1. **Header** — sticky limestone bar: wordmark, nav (drawer below 1180px), moss phone pill, DE/EN
+2. **Hero** — full-bleed movement photo; "In Bewegung bleiben." headline box overlapping it; sub, call button, "Termin anfragen"; ÖSV line
+3. **Physiotherapie** (`#leistungen`) — sticky treatment photo + heading, lead, two-column index (short term + original sentence), statement in moss
+4. **Hausbesuche** (`#hausbesuche`, glacier band) — heading left, lead + referral note right
+5. **Über mich** (`#ueber-uns`) — full-bleed portrait band, timeline (ÖSV row in moss), Weiterbildungen
+6. **Kostenübernahme** (`#kosten`) — three columns: Verordnung / Wahltherapeutin / Bewilligung
+7. **Kontakt** (`#kontakt`, deep moss) — the phone number as giant type, address / email / Praxis, form panel, consent-gated map
+8. **Footer** (moss-night) — copyright + Impressum / Datenschutz / Cookie-Einstellungen
+9. **Call bar** (`.fab`) — full-width moss bar, mobile only, after the hero call button scrolls away
 
 ## Placeholder content still to replace
-- Phone (`0664 75081432`, `tel:+4366475081432`) is real — appears in header, hero, contact section, FAB, Impressum, Datenschutz
-- About-me photo: `about__photo-placeholder`-style treatment no longer applies here — the About section is now text-only; if a photo is wanted, add it as a proper `<img>` similar to the hero pattern
+- Phone (`0664 75081432`, `tel:+4366475081432`) is real — appears in header, hero, contact section, mobile call bar, Impressum, Datenschutz
 - Address (Anichstraße 34, 6020 Innsbruck), email (`antonia@tzaphysio.at`), and the Google Maps embed are already real
 - `impressum.html` and `datenschutz.html` carry the final legal text — no placeholders left
 - Website links: the homepage contact section links to the TZA practice site (`tzaphysio.at`); the Impressum and everything else use `physioantoniascheiber.at`
@@ -129,7 +119,7 @@ gh pr create --base master --head my-change --title "..." --body "..."
 ```
 Live site: `https://physioantoniascheiber.at` (custom domain; `pkoller.github.io/physioAntoniaScheiber` redirects there). DNS is at GoDaddy: four A + four AAAA records on `@` pointing at GitHub Pages, plus `www` CNAME → `pkoller.github.io`. GitHub Pages is served from the `gh-pages` branch, published by `.github/workflows/pages-deploy.yml` on every push to `master` (it sets `cname: physioantoniascheiber.at` so the `CNAME` file on `gh-pages` is rewritten on every deploy — don't remove it or the domain detaches; that workflow also needs `permissions: contents: write` — without it the push silently 403s and the branch is never updated; this has broken production before).
 Every pull request also gets a live preview at `https://pkoller.github.io/physioAntoniaScheiber/pr-preview/pr-<number>/`, deployed by `.github/workflows/pr-preview.yml` via `rossjrw/pr-preview-action`, and torn down when the PR closes. That workflow stages files into an isolated `_pr-preview-src/` directory before deploying — don't change it back to `source-dir: ./` (repo root), that previously caused the deploy action's own temp worktree to get recursively copied into itself on every run.
-`.gitignore`: `media/`, `.agents/`, `skills-lock.json`, and `_pr-preview-src/` are ignored; `.claude/` is ignored except `.claude/skills/{emil-design-eng,design-taste-frontend,redesign-existing-projects}`, which are tracked on purpose (see "Design skills" above).
+`.gitignore`: `media/`, `.agents/`, `skills-lock.json`, `_pr-preview-src/` and `.impeccable/` (local design-tool working files) are ignored; `.claude/` is ignored except `.claude/skills/{emil-design-eng,design-taste-frontend,redesign-existing-projects}`, which are tracked on purpose (see "Design skills" above).
 
 ## What NOT to do
 - Don't introduce a framework or build step.
@@ -138,4 +128,4 @@ Every pull request also gets a live preview at `https://pkoller.github.io/physio
 - Don't change the bilingual pattern — extend it, don't replace it.
 - Don't hardcode colors or easing curves — use the CSS variables.
 - Don't push directly to `master` — it's protected; use a branch + PR.
-- Don't center `.container` on desktop or remove the sidebar's fixed-left layout.
+- Don't add a second accent colour or reintroduce card grids, eyebrows or uppercase labels.

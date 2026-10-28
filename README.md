@@ -12,18 +12,18 @@ Statische Website ohne Framework, Build-Tools oder Dependencies — öffnet dire
 |-------|--------|
 | `index.html` | Gesamte Seitenstruktur und Inhalte |
 | `style.css` | Alle Styles (Design-Tokens als CSS-Variablen in `:root`) |
-| `script.js` | Sprachumschaltung, mobiles Menü, aktive Navigation („Sie sind hier“), Formular-Handler, Cookie-Banner für Google Maps, mobile Anrufleiste |
+| `script.js` | Sprachumschaltung, mobiles Menü, aktive Navigation, Formular-Handler, Cookie-Banner für Google Maps, mobile Anrufleiste |
 | `impressum.html` | Impressum (§ 5 ECG / § 25 MedienG), nur Deutsch |
 | `datenschutz.html` | Datenschutzerklärung (DSGVO), nur Deutsch |
 | `img/` | Optimierte Bilder (Hero, Hausbesuche, Porträt, TZA-Logo) |
-| `fonts/` | Selbst gehostete Schriften Barlow Condensed + Atkinson Hyperlegible Next (woff2, latin + latin-ext) |
+| `fonts/` | Selbst gehostete Schriften Literata + Atkinson Hyperlegible Next (variable woff2, latin + latin-ext) |
 | `.github/workflows/` | Deployment auf GitHub Pages + PR-Vorschauen |
 | `PRODUCT.md` / `DESIGN.md` | Produktkontext und Gestaltungssystem (für den Impeccable-Design-Skill) |
 | `.claude/skills/` | Design-Referenzen für Claude Code (nur Doku, nicht Teil der Website) |
 
 ## Schriften
 
-Barlow Condensed (Schilder, Überschriften) und Atkinson Hyperlegible Next (Fließtext, für gute Lesbarkeit auch bei eingeschränkter Sehkraft) liegen als woff2-Dateien in `fonts/` und werden per `@font-face` am Anfang von `style.css` eingebunden. Bewusst **kein** Google-Fonts-`<link>`: das würde die IP-Adressen der Besucher ohne Einwilligung an Google übertragen (vgl. die Google-Fonts-Abmahnwelle 2022 in AT/DE).
+Literata (Überschriften, Telefonnummern) und Atkinson Hyperlegible Next (Fließtext, für gute Lesbarkeit auch bei eingeschränkter Sehkraft) liegen als woff2-Dateien in `fonts/` und werden per `@font-face` am Anfang von `style.css` eingebunden. Bewusst **kein** Google-Fonts-`<link>`: das würde die IP-Adressen der Besucher ohne Einwilligung an Google übertragen (vgl. die Google-Fonts-Abmahnwelle 2022 in AT/DE).
 
 ## Cookies & Google Maps
 

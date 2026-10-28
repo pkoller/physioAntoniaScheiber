@@ -24,14 +24,13 @@
         }
       }
     });
-    updateHere();
   }
 
   langToggle.addEventListener('click', () => {
     setLang(html.lang === 'de' ? 'en' : 'de');
   });
 
-  // ===== MOBILE NAV (drawer below 1100px) =====
+  // ===== MOBILE NAV (drawer below 1180px) =====
   const hamburger = document.getElementById('hamburger');
   const nav = document.getElementById('nav');
 
@@ -219,25 +218,12 @@
     });
   }
 
-  // ===== NAV ACTIVE SECTION + "SIE SIND HIER" PLATE =====
+  // ===== NAV ACTIVE SECTION =====
   // Observe the whole <section>, not just the heading a link scrolls to —
   // a nav click lands the heading right under the sticky header, which sits
   // outside a narrow "currently in view" band and would never light up.
-  // The active link also feeds the "Sie sind hier" plate under the header
-  // (shown on small screens, where the nav lives in the drawer).
   const navLinks = Array.from(document.querySelectorAll('#nav .nav__link'));
-  const here = document.getElementById('here');
-  const hereNum = document.getElementById('hereNum');
-  const herePlace = document.getElementById('herePlace');
   let activeLink = null;
-
-  function updateHere() {
-    if (!here) return;
-    here.classList.toggle('is-visible', Boolean(activeLink));
-    if (!activeLink) return;
-    hereNum.textContent = activeLink.querySelector('.nav__num').textContent;
-    herePlace.textContent = activeLink.querySelector('.nav__label').textContent;
-  }
 
   function setActive(link) {
     if (link === activeLink) return;
@@ -248,7 +234,6 @@
       if (on) l.setAttribute('aria-current', 'location');
       else l.removeAttribute('aria-current');
     });
-    updateHere();
   }
 
   if ('IntersectionObserver' in window) {
@@ -270,7 +255,7 @@
     }, { rootMargin: '-80px 0px -55% 0px' });
     sections.forEach(section => sectionObserver.observe(section));
 
-    // Back in the hero: no section is "here" yet
+    // Back in the hero: no section is active
     const hero = document.querySelector('.hero');
     if (hero) {
       new IntersectionObserver(([entry]) => {

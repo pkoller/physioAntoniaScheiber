@@ -8,3 +8,6 @@ media/
 .agents/
 skills-lock.json
 _pr-preview-src/
+
+# impeccable working files (screenshots, surface brief) — local only; the deploy publishes the repo root
+.impeccable/

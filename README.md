@@ -12,17 +12,17 @@ Statische Website ohne Framework, Build-Tools oder Dependencies — öffnet dire
 |-------|--------|
 | `index.html` | Gesamte Seitenstruktur und Inhalte |
 | `style.css` | Alle Styles (Design-Tokens als CSS-Variablen in `:root`) |
-| `script.js` | Sprachumschaltung, mobiles Menü, Scroll-Animationen, aktive Navigation, Formular-Handler, Google Maps per Klick |
+| `script.js` | Sprachumschaltung, mobiles Menü, aktive Navigation, Cookie-Banner für Google Maps, Formular-Handler, mobile Anrufleiste |
 | `impressum.html` | Impressum (§ 5 ECG / § 25 MedienG), nur Deutsch |
 | `datenschutz.html` | Datenschutzerklärung (DSGVO), nur Deutsch |
 | `img/` | Optimierte Bilder (Hero, Hausbesuche, Porträt, TZA-Logo) |
-| `fonts/` | Selbst gehostete Schriften Lora + Raleway (variable woff2, latin + latin-ext) |
+| `fonts/` | Selbst gehostete Schrift Hanken Grotesk (variable woff2, latin + latin-ext) |
 | `.github/workflows/` | Deployment auf GitHub Pages + PR-Vorschauen |
 | `.claude/skills/` | Design-Referenzen für Claude Code (nur Doku, nicht Teil der Website) |
 
 ## Schriften
 
-Lora (Überschriften) und Raleway (Fließtext) liegen als woff2-Dateien in `fonts/` und werden per `@font-face` am Anfang von `style.css` eingebunden. Bewusst **kein** Google-Fonts-`<link>`: das würde die IP-Adressen der Besucher ohne Einwilligung an Google übertragen (vgl. die Google-Fonts-Abmahnwelle 2022 in AT/DE).
+Hanken Grotesk (einzige Schriftfamilie) liegt als woff2-Dateien in `fonts/` und werden per `@font-face` am Anfang von `style.css` eingebunden. Bewusst **kein** Google-Fonts-`<link>`: das würde die IP-Adressen der Besucher ohne Einwilligung an Google übertragen (vgl. die Google-Fonts-Abmahnwelle 2022 in AT/DE).
 
 ## Cookies & Google Maps
 

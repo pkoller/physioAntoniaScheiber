@@ -361,6 +361,7 @@ p, li, dd { text-wrap: pretty; }
   letter-spacing: -0.025em;
 }
 .index__detail { font-size: 1.1rem; line-height: 1.5; color: var(--ink-soft); }
+.services + .statement { margin-top: clamp(2.75rem, 5vw, 5rem); }
 .statement {
   max-width: 30ch;
   font-family: var(--font-display);
@@ -682,7 +683,6 @@ p, li, dd { text-wrap: pretty; }
   }
   .services { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; }
   .services__intro { position: sticky; top: calc(var(--header-h) + 40px); }
-  .services .statement { grid-column: 1 / -1; }
   .visits { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
   .about { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
   .about__photo { position: sticky; top: calc(var(--header-h) + 40px); }

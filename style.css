@@ -38,7 +38,7 @@
 /* A modern Tyrolean practice room: daylight ground, pale stone-pine (Zirbe)
    panels, one deep forest green for the call action and the closing sections. */
 :root {
-  --ground:          #F6F2EA; /* daylight page ground */
+  --ground:          #F5F3EE; /* daylight page ground (warm, but not parchment) */
   --wood:            #EBDFCB; /* pale Zirbe panel: alternate sections, hero photo panel */
   --rule:            #D6C6AC; /* hairlines between list rows */
   --ink:             #2A2520; /* body text, headings (>=13:1 on ground) */
@@ -242,7 +242,7 @@ p, li, dd { text-wrap: pretty; }
 
 .nav { display: flex; align-items: center; gap: clamp(1.1rem, 2vw, 2rem); margin-left: auto; }
 .nav__link {
-  padding-block: 0.4rem;
+  padding: 0.4rem 0.2rem;
   font-weight: 500;
   font-size: 1rem;
   color: var(--ink);

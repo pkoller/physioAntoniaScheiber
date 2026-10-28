@@ -30,23 +30,32 @@
     setLang(html.lang === 'de' ? 'en' : 'de');
   });
 
-  // ===== MOBILE NAV =====
+  // ===== MOBILE NAV (drawer below 1180px) =====
   const hamburger = document.getElementById('hamburger');
   const nav = document.getElementById('nav');
 
+  function setNavOpen(open) {
+    nav.classList.toggle('is-open', open);
+    hamburger.classList.toggle('is-open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+  }
+
   hamburger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    hamburger.classList.toggle('is-open', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen);
+    setNavOpen(!nav.classList.contains('is-open'));
   });
 
-  // Close nav when a link is clicked (nav links or the logo)
-  nav.querySelectorAll('.nav__link, .logo').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
+  // Close the drawer when a link is clicked, on outside click and on Escape
+  nav.querySelectorAll('.nav__link').forEach(link => {
+    link.addEventListener('click', () => setNavOpen(false));
+  });
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !hamburger.contains(e.target)) setNavOpen(false);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+      setNavOpen(false);
+      hamburger.focus();
+    }
   });
 
   // Logo scrolls to top. The header it points to (#top) is sticky, so it's
@@ -56,15 +65,6 @@
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  });
-
-  // Close nav on outside click
-  document.addEventListener('click', e => {
-    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }
   });
 
   // ===== FOOTER YEAR =====
@@ -218,77 +218,53 @@
     });
   }
 
-  // ===== SCROLL REVEALS =====
-  // Fade-up section content as it enters the viewport (CSS gates this
-  // behind prefers-reduced-motion, so reduced-motion users see it static)
-  if ('IntersectionObserver' in window) {
-    // Only elements without absolutely-positioned descendants — a transform
-    // on an ancestor would re-anchor the divider panels
-    const revealSelector = [
-      '.section .section__eyebrow',
-      '.section .section__title',
-      '.section .section__sub',
-      '.section .about__credentials',
-      '.section .section__subhead',
-      '.about__text > p',
-      '.contact-info',
-      '.contact-form-wrap',
-      '.map-wrap'
-    ].join(',');
+  // ===== NAV ACTIVE SECTION =====
+  // Observe the whole <section>, not just the heading a link scrolls to —
+  // a nav click lands the heading right under the sticky header, which sits
+  // outside a narrow "currently in view" band and would never light up.
+  const navLinks = Array.from(document.querySelectorAll('#nav .nav__link'));
+  let activeLink = null;
 
-    const revealTargets = Array.from(document.querySelectorAll(revealSelector));
-    const staggerIndex = new Map();
-    revealTargets.forEach(el => {
-      const section = el.closest('section');
-      const i = staggerIndex.get(section) || 0;
-      el.classList.add('reveal');
-      el.style.setProperty('--reveal-delay', Math.min(i, 3) * 70 + 'ms');
-      staggerIndex.set(section, i + 1);
+  function setActive(link) {
+    if (link === activeLink) return;
+    activeLink = link;
+    navLinks.forEach(l => {
+      const on = l === link;
+      l.classList.toggle('is-active', on);
+      if (on) l.setAttribute('aria-current', 'location');
+      else l.removeAttribute('aria-current');
     });
+  }
 
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    revealTargets.forEach(el => revealObserver.observe(el));
-
-    // ===== NAV ACTIVE SECTION =====
-    // Observe the whole <section>, not just the small anchor target it
-    // scrolls to — a nav click lands the anchor right under the sticky
-    // header, which sits outside a narrow "currently in view" band and
-    // would otherwise never light up.
-    const navLinks = Array.from(document.querySelectorAll('.sidebar .nav__link'));
+  if ('IntersectionObserver' in window) {
     const linkForSection = new WeakMap();
-
+    const sections = [];
     navLinks.forEach(link => {
       const target = document.querySelector(link.getAttribute('href'));
       const section = target && target.closest('section');
-      if (section) linkForSection.set(section, link);
+      if (section) {
+        linkForSection.set(section, link);
+        sections.push(section);
+      }
     });
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const link = linkForSection.get(entry.target);
-        if (!link) return;
-        navLinks.forEach(l => l.classList.remove('is-active'));
-        link.classList.add('is-active');
+        if (entry.isIntersecting) setActive(linkForSection.get(entry.target));
       });
-    }, { rootMargin: '-72px 0px -55% 0px' });
+    }, { rootMargin: '-80px 0px -55% 0px' });
+    sections.forEach(section => sectionObserver.observe(section));
 
-    navLinks.forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      const section = target && target.closest('section');
-      if (section) sectionObserver.observe(section);
-    });
+    // Back in the hero: no section is active
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) setActive(null);
+      }, { rootMargin: '-80px 0px -55% 0px' }).observe(hero);
+    }
   }
 
-  // ===== FAB: only show once the hero call buttons have scrolled away =====
+  // ===== CALL BAR: only show once the hero call plate has scrolled away =====
   const fab = document.querySelector('.fab');
   const heroCtas = document.querySelector('.hero__ctas');
   if (fab && heroCtas && 'IntersectionObserver' in window) {
@@ -297,13 +273,5 @@
       fab.classList.toggle('is-hidden', entry.isIntersecting || entry.boundingClientRect.top > 0);
     }).observe(heroCtas);
   }
-
-  // ===== HEADER SCROLL SHADOW =====
-  const header = document.querySelector('.header');
-  window.addEventListener('scroll', () => {
-    header.style.boxShadow = window.scrollY > 8
-      ? '0 4px 24px rgba(38,70,83,0.12)'
-      : '0 4px 24px rgba(38,70,83,0.08)';
-  }, { passive: true });
 
 })();

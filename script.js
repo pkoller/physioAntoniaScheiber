@@ -1,8 +1,9 @@
 (function () {
   'use strict';
 
-  // ===== LANGUAGE TOGGLE =====
   const html = document.documentElement;
+
+  // ===== LANGUAGE TOGGLE =====
   const langToggle = document.getElementById('langToggle');
   const langLabel = document.getElementById('langLabel');
   const langOther = document.getElementById('langOther');
@@ -10,8 +11,10 @@
   function setLang(lang) {
     html.lang = lang;
     const isDE = lang === 'de';
-    langLabel.textContent = isDE ? 'DE' : 'EN';
-    langOther.textContent = isDE ? 'EN' : 'DE';
+    // Fixed "DE / EN" order; only the emphasis moves to the active language
+    langLabel.className = isDE ? 'lang-toggle__active' : 'lang-toggle__inactive';
+    langOther.className = isDE ? 'lang-toggle__inactive' : 'lang-toggle__active';
+    langToggle.setAttribute('aria-label', isDE ? 'Switch to English' : 'Auf Deutsch umschalten');
 
     document.querySelectorAll('[data-de]').forEach(el => {
       const text = isDE ? el.dataset.de : el.dataset.en;
@@ -24,48 +27,14 @@
         }
       }
     });
+    document.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
   }
 
-  langToggle.addEventListener('click', () => {
-    setLang(html.lang === 'de' ? 'en' : 'de');
-  });
-
-  // ===== MOBILE NAV =====
-  const hamburger = document.getElementById('hamburger');
-  const nav = document.getElementById('nav');
-
-  hamburger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    hamburger.classList.toggle('is-open', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen);
-  });
-
-  // Close nav when a link is clicked (nav links or the logo)
-  nav.querySelectorAll('.nav__link, .logo').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      setLang(html.lang === 'de' ? 'en' : 'de');
     });
-  });
-
-  // Logo scrolls to top. The header it points to (#top) is sticky, so it's
-  // always "in view" and the native anchor jump never actually scrolls.
-  document.querySelectorAll('.logo').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-
-  // Close nav on outside click
-  document.addEventListener('click', e => {
-    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }
-  });
+  }
 
   // ===== FOOTER YEAR =====
   const yearEl = document.getElementById('year');
@@ -120,14 +89,13 @@
       consentBanner.hidden = false;
       document.getElementById('consentAccept').focus();
     };
-    document.getElementById('consentOpen').addEventListener('click', openConsent);
-    // The map placeholder's link lives in data-de/data-en markup that the
-    // language toggle re-renders via innerHTML, so listen on the placeholder.
-    if (mapPlaceholder) {
-      mapPlaceholder.addEventListener('click', e => {
-        if (e.target.closest('[data-consent-open]')) openConsent();
-      });
-    }
+    const consentOpen = document.getElementById('consentOpen');
+    if (consentOpen) consentOpen.addEventListener('click', openConsent);
+    // Placeholder links live in data-de/data-en markup that the language
+    // toggle re-renders via innerHTML, so delegate from the document.
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-consent-open]')) openConsent();
+    });
   }
 
   // ===== CONTACT FORM (Web3Forms) =====
@@ -180,7 +148,7 @@
     };
     const showForm = show => {
       contactForm.hidden = !show;
-      formTitle.hidden = !show;
+      if (formTitle) formTitle.hidden = !show;
       formSuccess.hidden = show;
     };
 
@@ -218,92 +186,79 @@
     });
   }
 
-  // ===== SCROLL REVEALS =====
-  // Fade-up section content as it enters the viewport (CSS gates this
-  // behind prefers-reduced-motion, so reduced-motion users see it static)
-  if ('IntersectionObserver' in window) {
-    // Only elements without absolutely-positioned descendants — a transform
-    // on an ancestor would re-anchor the divider panels
-    const revealSelector = [
-      '.section .section__eyebrow',
-      '.section .section__title',
-      '.section .section__sub',
-      '.section .about__credentials',
-      '.section .section__subhead',
-      '.about__text > p',
-      '.contact-info',
-      '.contact-form-wrap',
-      '.map-wrap'
-    ].join(',');
-
-    const revealTargets = Array.from(document.querySelectorAll(revealSelector));
-    const staggerIndex = new Map();
-    revealTargets.forEach(el => {
-      const section = el.closest('section');
-      const i = staggerIndex.get(section) || 0;
-      el.classList.add('reveal');
-      el.style.setProperty('--reveal-delay', Math.min(i, 3) * 70 + 'ms');
-      staggerIndex.set(section, i + 1);
-    });
-
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    revealTargets.forEach(el => revealObserver.observe(el));
-
-    // ===== NAV ACTIVE SECTION =====
-    // Observe the whole <section>, not just the small anchor target it
-    // scrolls to — a nav click lands the anchor right under the sticky
-    // header, which sits outside a narrow "currently in view" band and
-    // would otherwise never light up.
-    const navLinks = Array.from(document.querySelectorAll('.sidebar .nav__link'));
-    const linkForSection = new WeakMap();
-
-    navLinks.forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      const section = target && target.closest('section');
-      if (section) linkForSection.set(section, link);
-    });
-
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const link = linkForSection.get(entry.target);
-        if (!link) return;
-        navLinks.forEach(l => l.classList.remove('is-active'));
-        link.classList.add('is-active');
-      });
-    }, { rootMargin: '-72px 0px -55% 0px' });
-
-    navLinks.forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      const section = target && target.closest('section');
-      if (section) sectionObserver.observe(section);
-    });
-  }
-
-  // ===== FAB: only show once the hero call buttons have scrolled away =====
+  // ===== CALL BAR: only once the first call button has scrolled away =====
   const fab = document.querySelector('.fab');
-  const heroCtas = document.querySelector('.hero__ctas');
-  if (fab && heroCtas && 'IntersectionObserver' in window) {
+  const fabAnchor = document.querySelector('[data-fab-anchor]');
+  if (fab && fabAnchor && 'IntersectionObserver' in window) {
     fab.classList.add('is-hidden');
     new IntersectionObserver(([entry]) => {
       fab.classList.toggle('is-hidden', entry.isIntersecting || entry.boundingClientRect.top > 0);
-    }).observe(heroCtas);
+    }).observe(fabAnchor);
   }
 
-  // ===== HEADER SCROLL SHADOW =====
-  const header = document.querySelector('.header');
-  window.addEventListener('scroll', () => {
-    header.style.boxShadow = window.scrollY > 8
-      ? '0 4px 24px rgba(38,70,83,0.12)'
-      : '0 4px 24px rgba(38,70,83,0.08)';
-  }, { passive: true });
+  // ===== ATLAS: the figure's labels and joints select a treatment =====
+  // Labels are the accessible controls (buttons with aria-pressed); the SVG
+  // joints and leader lines mirror their state and are a bigger mouse target.
+  const atlasLabels = document.querySelectorAll('.atlas__label');
+  const entries = document.getElementById('entries');
+  if (atlasLabels.length && entries) {
+    html.classList.add('js');
+    let current = null;
+    const select = key => {
+      current = key;
+      document.querySelectorAll('.atlas [data-key], .entry[data-key]').forEach(el => {
+        const on = el.dataset.key === key;
+        el.classList.toggle('is-current', on);
+        if (el.classList.contains('atlas__label')) el.setAttribute('aria-pressed', String(on));
+      });
+      entries.classList.toggle('has-current', key !== null);
+    };
+    const hover = (key, on) => {
+      document.querySelectorAll(`.atlas__spot[data-key="${key}"]`).forEach(el => el.classList.toggle('is-hover', on));
+    };
+    atlasLabels.forEach(btn => {
+      const key = btn.dataset.key;
+      btn.addEventListener('click', () => select(key === current ? null : key));
+      btn.addEventListener('mouseenter', () => hover(key, true));
+      btn.addEventListener('mouseleave', () => hover(key, false));
+    });
+    document.querySelectorAll('.atlas__spot').forEach(spot => {
+      const key = spot.dataset.key;
+      spot.addEventListener('click', () => select(key));
+      spot.addEventListener('mouseenter', () => hover(key, true));
+      spot.addEventListener('mouseleave', () => hover(key, false));
+    });
+  }
 
+  // ===== NAV ACTIVE SECTION =====
+  // Observe the whole <section>, not the heading a link scrolls to — that
+  // lands under the sticky header, outside the "in view" band.
+  const navLinks = Array.from(document.querySelectorAll('#nav .nav__link'));
+  if (navLinks.length && 'IntersectionObserver' in window) {
+    const linkForSection = new WeakMap();
+    let activeLink = null;
+    const setActive = link => {
+      if (link === activeLink) return;
+      activeLink = link;
+      navLinks.forEach(l => {
+        const on = l === link;
+        l.classList.toggle('is-active', on);
+        if (on) l.setAttribute('aria-current', 'location');
+        else l.removeAttribute('aria-current');
+      });
+    };
+    const observer = new IntersectionObserver(items => {
+      items.forEach(item => {
+        if (item.isIntersecting) setActive(linkForSection.get(item.target));
+      });
+    }, { rootMargin: '-80px 0px -55% 0px' });
+    navLinks.forEach(link => {
+      const target = document.querySelector(link.getAttribute('href'));
+      const section = target && target.closest('section');
+      if (section) {
+        linkForSection.set(section, link);
+        observer.observe(section);
+      }
+    });
+  }
 })();

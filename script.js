@@ -1,8 +1,9 @@
 (function () {
   'use strict';
 
-  // ===== LANGUAGE TOGGLE =====
   const html = document.documentElement;
+
+  // ===== LANGUAGE TOGGLE =====
   const langToggle = document.getElementById('langToggle');
   const langLabel = document.getElementById('langLabel');
   const langOther = document.getElementById('langOther');
@@ -10,8 +11,10 @@
   function setLang(lang) {
     html.lang = lang;
     const isDE = lang === 'de';
-    langLabel.textContent = isDE ? 'DE' : 'EN';
-    langOther.textContent = isDE ? 'EN' : 'DE';
+    // Fixed "DE / EN" order; only the emphasis moves to the active language
+    langLabel.className = isDE ? 'lang-toggle__active' : 'lang-toggle__inactive';
+    langOther.className = isDE ? 'lang-toggle__inactive' : 'lang-toggle__active';
+    langToggle.setAttribute('aria-label', isDE ? 'Switch to English' : 'Auf Deutsch umschalten');
 
     document.querySelectorAll('[data-de]').forEach(el => {
       const text = isDE ? el.dataset.de : el.dataset.en;
@@ -24,48 +27,14 @@
         }
       }
     });
+    document.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
   }
 
-  langToggle.addEventListener('click', () => {
-    setLang(html.lang === 'de' ? 'en' : 'de');
-  });
-
-  // ===== MOBILE NAV =====
-  const hamburger = document.getElementById('hamburger');
-  const nav = document.getElementById('nav');
-
-  hamburger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    hamburger.classList.toggle('is-open', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen);
-  });
-
-  // Close nav when a link is clicked (nav links or the logo)
-  nav.querySelectorAll('.nav__link, .logo').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      setLang(html.lang === 'de' ? 'en' : 'de');
     });
-  });
-
-  // Logo scrolls to top. The header it points to (#top) is sticky, so it's
-  // always "in view" and the native anchor jump never actually scrolls.
-  document.querySelectorAll('.logo').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-
-  // Close nav on outside click
-  document.addEventListener('click', e => {
-    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-      nav.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }
-  });
+  }
 
   // ===== FOOTER YEAR =====
   const yearEl = document.getElementById('year');
@@ -120,14 +89,13 @@
       consentBanner.hidden = false;
       document.getElementById('consentAccept').focus();
     };
-    document.getElementById('consentOpen').addEventListener('click', openConsent);
-    // The map placeholder's link lives in data-de/data-en markup that the
-    // language toggle re-renders via innerHTML, so listen on the placeholder.
-    if (mapPlaceholder) {
-      mapPlaceholder.addEventListener('click', e => {
-        if (e.target.closest('[data-consent-open]')) openConsent();
-      });
-    }
+    const consentOpen = document.getElementById('consentOpen');
+    if (consentOpen) consentOpen.addEventListener('click', openConsent);
+    // Placeholder links live in data-de/data-en markup that the language
+    // toggle re-renders via innerHTML, so delegate from the document.
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-consent-open]')) openConsent();
+    });
   }
 
   // ===== CONTACT FORM (Web3Forms) =====
@@ -180,7 +148,7 @@
     };
     const showForm = show => {
       contactForm.hidden = !show;
-      formTitle.hidden = !show;
+      if (formTitle) formTitle.hidden = !show;
       formSuccess.hidden = show;
     };
 
@@ -218,92 +186,104 @@
     });
   }
 
-  // ===== SCROLL REVEALS =====
-  // Fade-up section content as it enters the viewport (CSS gates this
-  // behind prefers-reduced-motion, so reduced-motion users see it static)
-  if ('IntersectionObserver' in window) {
-    // Only elements without absolutely-positioned descendants — a transform
-    // on an ancestor would re-anchor the divider panels
-    const revealSelector = [
-      '.section .section__eyebrow',
-      '.section .section__title',
-      '.section .section__sub',
-      '.section .about__credentials',
-      '.section .section__subhead',
-      '.about__text > p',
-      '.contact-info',
-      '.contact-form-wrap',
-      '.map-wrap'
-    ].join(',');
-
-    const revealTargets = Array.from(document.querySelectorAll(revealSelector));
-    const staggerIndex = new Map();
-    revealTargets.forEach(el => {
-      const section = el.closest('section');
-      const i = staggerIndex.get(section) || 0;
-      el.classList.add('reveal');
-      el.style.setProperty('--reveal-delay', Math.min(i, 3) * 70 + 'ms');
-      staggerIndex.set(section, i + 1);
-    });
-
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    revealTargets.forEach(el => revealObserver.observe(el));
-
-    // ===== NAV ACTIVE SECTION =====
-    // Observe the whole <section>, not just the small anchor target it
-    // scrolls to — a nav click lands the anchor right under the sticky
-    // header, which sits outside a narrow "currently in view" band and
-    // would otherwise never light up.
-    const navLinks = Array.from(document.querySelectorAll('.sidebar .nav__link'));
-    const linkForSection = new WeakMap();
-
-    navLinks.forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      const section = target && target.closest('section');
-      if (section) linkForSection.set(section, link);
-    });
-
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const link = linkForSection.get(entry.target);
-        if (!link) return;
-        navLinks.forEach(l => l.classList.remove('is-active'));
-        link.classList.add('is-active');
-      });
-    }, { rootMargin: '-72px 0px -55% 0px' });
-
-    navLinks.forEach(link => {
-      const target = document.querySelector(link.getAttribute('href'));
-      const section = target && target.closest('section');
-      if (section) sectionObserver.observe(section);
-    });
-  }
-
-  // ===== FAB: only show once the hero call buttons have scrolled away =====
+  // ===== CALL BAR: only once the first call button has scrolled away =====
   const fab = document.querySelector('.fab');
-  const heroCtas = document.querySelector('.hero__ctas');
-  if (fab && heroCtas && 'IntersectionObserver' in window) {
+  const fabAnchor = document.querySelector('[data-fab-anchor]');
+  if (fab && fabAnchor && 'IntersectionObserver' in window) {
     fab.classList.add('is-hidden');
     new IntersectionObserver(([entry]) => {
       fab.classList.toggle('is-hidden', entry.isIntersecting || entry.boundingClientRect.top > 0);
-    }).observe(heroCtas);
+    }).observe(fabAnchor);
   }
 
-  // ===== HEADER SCROLL SHADOW =====
-  const header = document.querySelector('.header');
-  window.addEventListener('scroll', () => {
-    header.style.boxShadow = window.scrollY > 8
-      ? '0 4px 24px rgba(38,70,83,0.12)'
-      : '0 4px 24px rgba(38,70,83,0.08)';
-  }, { passive: true });
+  // ===== SPRECHSTUNDE: questions are asked, answers arrive =====
+  // Every answer is in the HTML (no-JS visitors and search engines see the
+  // whole page); with JS, unasked ones wait until their chip is tapped. Each
+  // asked question moves to the end of the thread, so the conversation reads
+  // in the order the visitor asked.
+  const thread = document.getElementById('thread');
+  const composer = document.getElementById('composer');
+  if (thread && composer) {
+    html.classList.add('js');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const chips = Array.from(composer.querySelectorAll('.chip'));
+    const composerDone = document.getElementById('composerDone');
+    const showAll = document.getElementById('showAll');
+    const asked = new Set();
 
+    const arrive = el => {
+      el.classList.remove('is-arriving');
+      void el.offsetWidth; // restart the animation
+      el.classList.add('is-arriving');
+      el.addEventListener('animationend', () => el.classList.remove('is-arriving'), { once: true });
+    };
+
+    const ask = (key, { animate = true, scroll = true } = {}) => {
+      const qa = thread.querySelector(`.qa[data-q="${key}"]`);
+      if (!qa || asked.has(key)) return qa;
+      asked.add(key);
+      thread.appendChild(qa);
+      qa.classList.add('is-asked');
+      chips.forEach(chip => { if (chip.dataset.ask === key) chip.hidden = true; });
+      if (asked.size === chips.length) {
+        composerDone.hidden = false;
+        showAll.hidden = true;
+      }
+
+      const question = qa.querySelector('.turn--you');
+      const answer = qa.querySelector('.turn--her');
+      if (animate && !reduceMotion) {
+        arrive(question);
+        let typing = answer.querySelector('.typing');
+        if (!typing) {
+          typing = document.createElement('span');
+          typing.className = 'typing';
+          typing.setAttribute('aria-hidden', 'true');
+          typing.innerHTML = '<i></i><i></i><i></i>';
+          answer.prepend(typing);
+        }
+        answer.classList.add('is-typing');
+        setTimeout(() => {
+          answer.classList.remove('is-typing');
+          arrive(answer);
+        }, 700);
+      }
+      if (scroll) {
+        qa.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      }
+      return qa;
+    };
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const qa = ask(chip.dataset.ask);
+        // The chip disappears, so hand focus to the question it asked
+        const heading = qa && qa.querySelector('h2');
+        if (heading) {
+          heading.setAttribute('tabindex', '-1');
+          heading.focus({ preventScroll: true });
+        }
+      });
+    });
+
+    showAll.addEventListener('click', () => {
+      chips.forEach(chip => ask(chip.dataset.ask, { animate: false, scroll: false }));
+    });
+
+    // A link or URL hash pointing into an unasked answer asks it first
+    const openTarget = id => {
+      const target = id && document.getElementById(id);
+      const qa = target && target.closest('.qa');
+      if (qa && !qa.classList.contains('is-asked')) ask(qa.dataset.q, { animate: false, scroll: false });
+      return target;
+    };
+    if (location.hash) {
+      const target = openTarget(decodeURIComponent(location.hash.slice(1)));
+      if (target) target.scrollIntoView();
+    }
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link) openTarget(link.getAttribute('href').slice(1));
+    });
+  }
 })();
